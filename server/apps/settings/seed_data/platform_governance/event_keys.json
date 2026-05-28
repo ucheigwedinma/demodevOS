@@ -1,0 +1,273 @@
+[
+  {
+    "key": "workflow_pending",
+    "label": "Workflow Pending",
+    "module": "workflows",
+    "description": "Approval task is pending with an assigned approver.",
+    "default_channels": ["in_app", "email"],
+    "default_severity_tier": "review",
+    "variables": ["assignee_name", "document_title", "due_at", "action_url"]
+  },
+  {
+    "key": "sla_escalation",
+    "label": "SLA Escalation",
+    "module": "workflows",
+    "description": "Escalation alert for breached SLA.",
+    "default_channels": ["in_app", "email", "sms", "push"],
+    "default_severity_tier": "escalation",
+    "variables": ["document_title", "assignee_name", "action_url"]
+  },
+  {
+    "key": "support_ticket_assigned",
+    "label": "Support Ticket Assigned",
+    "module": "support_desk",
+    "description": "Agent assignment notice for support desk tickets.",
+    "default_channels": ["in_app", "email"],
+    "default_severity_tier": "review",
+    "variables": ["ticket_id", "ticket_subject", "requester_name", "action_url"]
+  },
+  {
+    "key": "support_ticket_reply_posted",
+    "label": "Support Ticket Reply Posted",
+    "module": "support_desk",
+    "description": "Requester update when support posts a response.",
+    "default_channels": ["in_app", "email"],
+    "default_severity_tier": "review",
+    "variables": ["ticket_id", "ticket_subject", "action_url"]
+  },
+  {
+    "key": "support_ticket_escalated",
+    "label": "Support Ticket Escalated",
+    "module": "support_desk",
+    "description": "Escalation update for support desk ticket owners.",
+    "default_channels": ["in_app", "email"],
+    "default_severity_tier": "action_required",
+    "variables": ["ticket_id", "ticket_subject", "action_url"]
+  },
+  {
+    "key": "finance_budget_threshold_warning",
+    "label": "Budget Threshold Warning",
+    "module": "finance",
+    "description": "Warning when budget spend reaches a configured threshold.",
+    "default_channels": ["in_app", "email"],
+    "default_severity_tier": "review",
+    "variables": [
+      "account_code",
+      "account_name",
+      "percent_used",
+      "budgeted_amount",
+      "actual_amount",
+      "budget_name",
+      "action_url"
+    ]
+  },
+  {
+    "key": "finance_budget_threshold_exceeded",
+    "label": "Budget Threshold Exceeded",
+    "module": "finance",
+    "description": "Critical alert when budget spend exceeds tolerance.",
+    "default_channels": ["in_app", "email"],
+    "default_severity_tier": "escalation",
+    "variables": [
+      "account_code",
+      "account_name",
+      "percent_used",
+      "budgeted_amount",
+      "actual_amount",
+      "budget_name",
+      "action_url"
+    ]
+  },
+  {
+    "key": "finance_weekly_budget_digest",
+    "label": "Weekly Budget Digest",
+    "module": "finance",
+    "description": "Periodic weekly summary for active budgets.",
+    "default_channels": ["in_app", "email"],
+    "default_severity_tier": "info",
+    "variables": ["digest_date", "action_url", "digest_text", "digest_html"]
+  },
+  {
+    "key": "reports_ready",
+    "label": "Report Ready",
+    "module": "analytics",
+    "description": "Notification sent when a report run is generated and ready.",
+    "default_channels": ["in_app", "email"],
+    "default_severity_tier": "info",
+    "variables": ["report_name", "report_code", "run_id", "generated_at", "output_format", "view_url", "download_url", "action_url"]
+  },
+  {
+    "key": "documents_expiry_90_day",
+    "label": "Document Expiry (90 Days)",
+    "module": "documents",
+    "description": "Document expiry alert for 31-90 day horizon.",
+    "default_channels": ["in_app", "email"],
+    "default_severity_tier": "review",
+    "variables": [
+      "document_number",
+      "document_title",
+      "category_label",
+      "expiry_date",
+      "days_to_expiry",
+      "action_url"
+    ]
+  },
+  {
+    "key": "documents_expiry_30_day",
+    "label": "Document Expiry (30 Days)",
+    "module": "documents",
+    "description": "Document expiry alert for 0-30 day horizon.",
+    "default_channels": ["in_app", "email"],
+    "default_severity_tier": "action_required",
+    "variables": [
+      "document_number",
+      "document_title",
+      "category_label",
+      "expiry_date",
+      "days_to_expiry",
+      "action_url"
+    ]
+  },
+  {
+    "key": "documents_expired",
+    "label": "Document Expired",
+    "module": "documents",
+    "description": "Critical alert for expired governance documents.",
+    "default_channels": ["in_app", "email"],
+    "default_severity_tier": "escalation",
+    "variables": [
+      "document_number",
+      "document_title",
+      "category_label",
+      "expiry_date",
+      "days_overdue",
+      "action_url"
+    ]
+  },
+  {
+    "key": "documents_expiry_escalated",
+    "label": "Document Expiry Escalated",
+    "module": "documents",
+    "description": "Escalated notice for unresolved expired documents.",
+    "default_channels": ["in_app", "email"],
+    "default_severity_tier": "escalation",
+    "variables": [
+      "document_number",
+      "document_title",
+      "category_label",
+      "expiry_date",
+      "days_overdue",
+      "action_url"
+    ]
+  },
+  {
+    "key": "crm_reservation_payment_instruction",
+    "label": "Reservation Payment Instruction",
+    "module": "crm",
+    "description": "Payment instruction for reservation owners.",
+    "default_channels": ["in_app", "email"],
+    "default_severity_tier": "review",
+    "variables": ["reservation_number", "deposit_amount", "deposit_due_date", "action_url"]
+  },
+  {
+    "key": "crm_deal_stage_changed",
+    "label": "CRM Deal Stage Changed",
+    "module": "crm",
+    "description": "Notifies stakeholders when an opportunity/deal stage or status changes.",
+    "default_channels": ["in_app", "email"],
+    "default_severity_tier": "review",
+    "variables": [
+      "deal_name",
+      "lead_name",
+      "contact_name",
+      "old_stage",
+      "new_stage",
+      "old_status",
+      "new_status",
+      "action_url"
+    ]
+  },
+  {
+    "key": "crm_payment_reminder_due",
+    "label": "CRM Reservation Payment Reminder",
+    "module": "crm",
+    "description": "Sends reminders for due or overdue reservation payment installments.",
+    "default_channels": ["in_app", "email"],
+    "default_severity_tier": "action_required",
+    "variables": [
+      "reservation_number",
+      "lead_name",
+      "due_date",
+      "amount_due",
+      "overdue_days",
+      "action_url"
+    ]
+  },
+  {
+    "key": "crm_broker_commission_ready_for_finance",
+    "label": "CRM Broker Commission Ready for Finance",
+    "module": "crm",
+    "description": "Notifies finance when broker commission is calculated on closed-won deals.",
+    "default_channels": ["in_app", "email"],
+    "default_severity_tier": "action_required",
+    "variables": [
+      "broker_name",
+      "lead_name",
+      "deal_name",
+      "deal_value",
+      "commission_amount",
+      "commission_rate",
+      "action_url"
+    ]
+  },
+  {
+    "key": "crm_broker_target_hit_incentive",
+    "label": "CRM Broker Target Hit Incentive",
+    "module": "crm",
+    "description": "Notifies management when a broker reaches incentive target thresholds.",
+    "default_channels": ["in_app", "email"],
+    "default_severity_tier": "review",
+    "variables": [
+      "broker_name",
+      "tier_name",
+      "deals_count",
+      "revenue_total",
+      "target_deals",
+      "target_revenue",
+      "bonus_pct",
+      "triggered_by",
+      "action_url"
+    ]
+  },
+  {
+    "key": "crm_projects_high_demand_insight",
+    "label": "CRM Projects High-Demand Insight",
+    "module": "crm",
+    "description": "Notifies planning stakeholders when CRM demand concentration crosses configured trigger thresholds.",
+    "default_channels": ["in_app", "email"],
+    "default_severity_tier": "action_required",
+    "variables": [
+      "area_count",
+      "areas_summary",
+      "window_days",
+      "threshold_percent",
+      "action_url"
+    ]
+  },
+  {
+    "key": "crm_procurement_bulk_buyer_demand",
+    "label": "CRM Procurement Bulk-Buyer Demand Trigger",
+    "module": "crm",
+    "description": "Notifies procurement stakeholders when bulk-buyer demand triggers furnishing and add-on package recommendations.",
+    "default_channels": ["in_app", "email"],
+    "default_severity_tier": "action_required",
+    "variables": [
+      "area_count",
+      "areas_summary",
+      "window_days",
+      "threshold_percent",
+      "min_bulk_leads",
+      "action_url"
+    ]
+  }
+]

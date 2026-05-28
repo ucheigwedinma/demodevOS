@@ -1,0 +1,70 @@
+import { registerResource } from "../index";
+
+registerResource({
+  key: "allowances",
+  module: "hr",
+  label: "Allowance",
+  labelPlural: "Allowances",
+  endpoint: "/hr/allowances/",
+  columns: [
+    { key: "id", label: "ID", type: "number", width: "w-16" },
+    { key: "employee", label: "Employee", type: "text" },
+    { key: "name", label: "Name", type: "text", sortable: true },
+    { key: "allowance_type", label: "Type", type: "badge" },
+    { key: "amount", label: "Amount", type: "currency" },
+    { key: "frequency", label: "Frequency", type: "text" },
+    { key: "is_active", label: "Active", type: "boolean" },
+  ],
+  filters: [
+    { key: "search", label: "Search", type: "search", placeholder: "Search allowances..." },
+    {
+      key: "allowance_type",
+      label: "Type",
+      type: "select",
+      options: [
+        { value: "HOUSING", label: "Housing" },
+        { value: "TRANSPORT", label: "Transport" },
+        { value: "MEAL", label: "Meal" },
+        { value: "PHONE", label: "Phone" },
+        { value: "MEDICAL", label: "Medical" },
+        { value: "EDUCATION", label: "Education" },
+        { value: "OTHER", label: "Other" },
+      ],
+    },
+  ],
+  formFields: [
+    { key: "employee", label: "Employee", type: "relation_picker", required: true, optionsEndpoint: "/hr/employee-records/" },
+    { key: "name", label: "Name", type: "text", required: true },
+    {
+      key: "allowance_type",
+      label: "Type",
+      type: "select",
+      options: [
+        { value: "HOUSING", label: "Housing" },
+        { value: "TRANSPORT", label: "Transport" },
+        { value: "MEAL", label: "Meal" },
+        { value: "PHONE", label: "Phone" },
+        { value: "MEDICAL", label: "Medical" },
+        { value: "EDUCATION", label: "Education" },
+        { value: "OTHER", label: "Other" },
+      ],
+    },
+    { key: "amount", label: "Amount", type: "currency", required: true },
+    { key: "currency", label: "Currency", type: "text", defaultValue: "USD" },
+    {
+      key: "frequency",
+      label: "Frequency",
+      type: "select",
+      options: [
+        { value: "MONTHLY", label: "Monthly" },
+        { value: "QUARTERLY", label: "Quarterly" },
+        { value: "ANNUALLY", label: "Annually" },
+        { value: "ONE_TIME", label: "One Time" },
+      ],
+    },
+    { key: "start_date", label: "Start Date", type: "date" },
+    { key: "end_date", label: "End Date", type: "date" },
+    { key: "is_taxable", label: "Taxable", type: "boolean" },
+    { key: "is_active", label: "Active", type: "boolean", defaultValue: true },
+  ],
+});

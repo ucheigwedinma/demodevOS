@@ -1,0 +1,71 @@
+import { registerResource } from "../index";
+
+registerResource({
+  key: "units",
+  module: "properties",
+  label: "Unit",
+  labelPlural: "Units",
+  endpoint: "/properties/units/",
+  columns: [
+    { key: "unit_number", label: "Unit Number", type: "text", sortable: true },
+    { key: "property", label: "Property", type: "text" },
+    { key: "unit_type", label: "Unit Type", type: "text" },
+    { key: "floor", label: "Floor", type: "text" },
+    { key: "area_sqft", label: "Area (sqft)", type: "number" },
+    { key: "status", label: "Status", type: "badge" },
+    { key: "price", label: "Price", type: "currency" },
+  ],
+  filters: [
+    { key: "search", label: "Search", type: "search", placeholder: "Search units..." },
+    {
+      key: "status",
+      label: "Status",
+      type: "select",
+      options: [
+        { value: "AVAILABLE", label: "Available" },
+        { value: "RESERVED", label: "Reserved" },
+        { value: "SOLD", label: "Sold" },
+        { value: "OCCUPIED", label: "Occupied" },
+        { value: "UNDER_CONSTRUCTION", label: "Under Construction" },
+      ],
+    },
+  ],
+  formFields: [
+    { key: "property", label: "Property", type: "relation_picker", required: true, optionsEndpoint: "/properties/" },
+    { key: "unit_number", label: "Unit Number", type: "text", required: true },
+    {
+      key: "unit_type",
+      label: "Unit Type",
+      type: "select",
+      options: [
+        { value: "APARTMENT", label: "Apartment" },
+        { value: "VILLA", label: "Villa" },
+        { value: "TOWNHOUSE", label: "Townhouse" },
+        { value: "PENTHOUSE", label: "Penthouse" },
+        { value: "STUDIO", label: "Studio" },
+        { value: "DUPLEX", label: "Duplex" },
+        { value: "OFFICE", label: "Office" },
+        { value: "RETAIL", label: "Retail" },
+        { value: "WAREHOUSE", label: "Warehouse" },
+        { value: "LAND", label: "Land" },
+        { value: "OTHER", label: "Other" },
+      ],
+    },
+    { key: "floor", label: "Floor", type: "text" },
+    { key: "area_sqft", label: "Area (sqft)", type: "number" },
+    { key: "price", label: "Price", type: "currency" },
+    {
+      key: "status",
+      label: "Status",
+      type: "select",
+      options: [
+        { value: "AVAILABLE", label: "Available" },
+        { value: "RESERVED", label: "Reserved" },
+        { value: "SOLD", label: "Sold" },
+        { value: "OCCUPIED", label: "Occupied" },
+        { value: "UNDER_CONSTRUCTION", label: "Under Construction" },
+      ],
+    },
+    { key: "notes", label: "Notes", type: "textarea", gridSpan: 2 },
+  ],
+});

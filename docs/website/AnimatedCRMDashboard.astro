@@ -1,0 +1,894 @@
+---
+import catalog from "./app-feature-catalog.json";
+
+type CatalogSection = {
+  key: string;
+  label: string;
+  href: string;
+  sub_items: { label: string; href: string }[];
+};
+
+type StageKey =
+  | "inquiry"
+  | "qualified"
+  | "site_visit"
+  | "offer_made"
+  | "reservation"
+  | "spa_issued"
+  | "closed";
+
+const crmSection = (catalog.app_navigation.sidebar_sections as CatalogSection[]).find(
+  (section) => section.key === "crm",
+);
+
+const crmModules = crmSection?.sub_items ?? [
+  { label: "Leads & Pipeline", href: "/crm/leads" },
+  { label: "Reservations", href: "/crm/reservations" },
+  { label: "Financial Pre-Assessment", href: "/crm/assessments" },
+  { label: "Brokers & Partners", href: "/crm/brokers" },
+  { label: "Communication Engine", href: "/crm/communications" },
+];
+
+const pipelineStages: { key: StageKey; label: string; seed: number }[] = [
+  { key: "inquiry", label: "Inquiry", seed: 28 },
+  { key: "qualified", label: "Qualified", seed: 19 },
+  { key: "site_visit", label: "Site Visit", seed: 13 },
+  { key: "offer_made", label: "Offer Made", seed: 8 },
+  { key: "reservation", label: "Reservation", seed: 6 },
+  { key: "spa_issued", label: "SPA Issued", seed: 4 },
+  { key: "closed", label: "Closed", seed: 3 },
+];
+
+const seedReminders = [
+  { title: "Call back Apex Shelter Group", owner: "Amina", status: "pending", eta: 90 },
+  { title: "Follow up on site visit feedback", owner: "Tunde", status: "overdue", eta: 15 },
+  { title: "Escalate pending reservation payment", owner: "Grace", status: "escalated", eta: 45 },
+  { title: "Confirm SPA issue checklist", owner: "Ife", status: "completed", eta: 0 },
+];
+
+const seedFeed = [
+  { channel: "email", text: "Campaign: Early Access phase 2 delivered", time: "2m ago" },
+  { channel: "whatsapp", text: "Lead replied: Site visit available tomorrow", time: "4m ago" },
+  { channel: "phone", text: "Call logged for Lagos Waterfront Estate", time: "7m ago" },
+  { channel: "in_person", text: "Meeting confirmed with Cedarline Partners", time: "11m ago" },
+];
+
+const serializedPipeline = JSON.stringify(pipelineStages);
+const serializedReminders = JSON.stringify(seedReminders);
+const serializedFeed = JSON.stringify(seedFeed);
+---
+
+<section
+  class="crm-animated-dashboard"
+  data-crm-dashboard
+  data-pipeline={serializedPipeline}
+  data-reminders={serializedReminders}
+  data-feed={serializedFeed}
+>
+  <header class="crm-header">
+    <p class="eyebrow">Sales Automation</p>
+    <h2>Streamline your sales pipeline with CRM</h2>
+    <p>
+      Intelligent tracking, reminders, and easy collaboration powered by your actual CRM surface.
+    </p>
+  </header>
+
+  <nav class="crm-modules" aria-label="CRM modules in app">
+    {crmModules.map((module) => (
+      <a class="module-pill" href={module.href}>
+        <span>{module.label}</span>
+        <small>{module.href}</small>
+      </a>
+    ))}
+  </nav>
+
+  <div class="crm-kpis">
+    <article class="kpi-card">
+      <p>Active Leads</p>
+      <strong data-kpi="activeLeads">0</strong>
+    </article>
+    <article class="kpi-card">
+      <p>Reservations In Progress</p>
+      <strong data-kpi="reservations">0</strong>
+    </article>
+    <article class="kpi-card">
+      <p>Follow-Up SLA Due</p>
+      <strong data-kpi="slaDue">0</strong>
+    </article>
+    <article class="kpi-card">
+      <p>Outreach Today</p>
+      <strong data-kpi="outreach">0</strong>
+    </article>
+  </div>
+
+  <div class="crm-grid">
+    <article class="panel pipeline-panel">
+      <div class="panel-head">
+        <div>
+          <p class="panel-eyebrow">Leads & Pipeline</p>
+          <h3>Live Pipeline Flow</h3>
+        </div>
+        <a href="/crm/leads">Open /crm/leads</a>
+      </div>
+
+      <div class="stage-grid" data-stage-grid>
+        {pipelineStages.map((stage) => (
+          <section class="stage-col" data-stage={stage.key}>
+            <header>
+              <p>{stage.label}</p>
+              <span data-stage-count>{stage.seed}</span>
+            </header>
+            <div class="stage-lane" data-stage-lane>
+              <span class="lead-chip">L-101</span>
+              <span class="lead-chip">L-203</span>
+            </div>
+            <div class="stage-meter">
+              <span data-stage-meter style={`--meter:${Math.min(stage.seed * 3, 96)}%`}></span>
+            </div>
+          </section>
+        ))}
+      </div>
+    </article>
+
+    <article class="panel reminders-panel">
+      <div class="panel-head">
+        <div>
+          <p class="panel-eyebrow">Follow-Up SLA</p>
+          <h3>Intelligent Reminders</h3>
+        </div>
+        <a href="/crm/communications">Open /crm/communications</a>
+      </div>
+
+      <ul class="reminder-list" data-reminder-list>
+        <li class="reminder-row">
+          <div>
+            <p class="reminder-title">Loading reminders...</p>
+            <small>Owner</small>
+          </div>
+          <div class="reminder-meta">
+            <span class="status-chip">pending</span>
+            <small>ETA --m</small>
+          </div>
+          <div class="progress-track"><span class="progress-fill" style="--fill:40%"></span></div>
+        </li>
+      </ul>
+    </article>
+
+    <article class="panel collaboration-panel">
+      <div class="panel-head">
+        <div>
+          <p class="panel-eyebrow">Communication Engine</p>
+          <h3>Easy Collaboration</h3>
+        </div>
+        <a href="/crm/communications">Open communication log</a>
+      </div>
+
+      <ul class="feed-list" data-feed-list>
+        <li class="feed-row">
+          <span class="channel-badge">email</span>
+          <p>Loading collaboration events...</p>
+          <small>just now</small>
+        </li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+<script>
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function safeParse(raw, fallback) {
+    try {
+      return JSON.parse(raw);
+    } catch {
+      return fallback;
+    }
+  }
+
+  function titleCase(input) {
+    return input
+      .replace(/_/g, " ")
+      .replace(/\b\w/g, (char) => char.toUpperCase());
+  }
+
+  function animateNumber(node, from, to, suffix = "", duration = 500) {
+    if (!node) return;
+    if (reduceMotion) {
+      node.textContent = `${Math.round(to)}${suffix}`;
+      return;
+    }
+
+    const start = performance.now();
+    const delta = to - from;
+
+    function frame(time) {
+      const progress = Math.min(1, (time - start) / duration);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const value = from + delta * eased;
+      node.textContent = `${Math.round(value)}${suffix}`;
+      if (progress < 1) requestAnimationFrame(frame);
+    }
+
+    requestAnimationFrame(frame);
+  }
+
+  function chipLabel(index) {
+    return `L-${100 + ((index * 37) % 900)}`;
+  }
+
+  function statusClass(status) {
+    if (status === "completed") return "is-completed";
+    if (status === "overdue") return "is-overdue";
+    if (status === "escalated") return "is-escalated";
+    return "is-pending";
+  }
+
+  function feedChannelClass(channel) {
+    if (channel === "email") return "ch-email";
+    if (channel === "whatsapp") return "ch-whatsapp";
+    if (channel === "phone") return "ch-phone";
+    if (channel === "in_person") return "ch-in-person";
+    return "ch-generic";
+  }
+
+  function initDashboard(root) {
+    const stages = safeParse(root.getAttribute("data-pipeline") || "[]", []);
+    const reminders = safeParse(root.getAttribute("data-reminders") || "[]", []);
+    const feed = safeParse(root.getAttribute("data-feed") || "[]", []);
+
+    if (!Array.isArray(stages) || stages.length === 0) return;
+
+    const stageState = stages.map((stage) => ({
+      key: stage.key,
+      label: stage.label,
+      count: Number(stage.seed || 0),
+    }));
+
+    let reminderState = Array.isArray(reminders) ? reminders.slice(0, 4) : [];
+    let feedState = Array.isArray(feed) ? feed.slice(0, 6) : [];
+    let outreachCount = 24;
+
+    const stageCols = [...root.querySelectorAll(".stage-col")];
+    const reminderList = root.querySelector("[data-reminder-list]");
+    const feedList = root.querySelector("[data-feed-list]");
+
+    const kpiLeads = root.querySelector('[data-kpi="activeLeads"]');
+    const kpiReservations = root.querySelector('[data-kpi="reservations"]');
+    const kpiSlaDue = root.querySelector('[data-kpi="slaDue"]');
+    const kpiOutreach = root.querySelector('[data-kpi="outreach"]');
+
+    if (!reminderList || !feedList || !kpiLeads || !kpiReservations || !kpiSlaDue || !kpiOutreach) {
+      return;
+    }
+
+    function renderPipeline(prevState = null) {
+      stageCols.forEach((col, index) => {
+        const state = stageState[index];
+        if (!state) return;
+
+        const countNode = col.querySelector("[data-stage-count]");
+        const laneNode = col.querySelector("[data-stage-lane]");
+        const meterNode = col.querySelector("[data-stage-meter]");
+
+        if (!countNode || !laneNode || !meterNode) return;
+
+        const previousCount = prevState && prevState[index] ? prevState[index].count : state.count;
+        animateNumber(countNode, previousCount, state.count);
+
+        laneNode.innerHTML = "";
+        const chips = Math.max(1, Math.min(5, Math.round(state.count / 5)));
+        for (let i = 0; i < chips; i += 1) {
+          const chip = document.createElement("span");
+          chip.className = "lead-chip";
+          chip.style.animationDelay = `${(i + index) * 80}ms`;
+          chip.textContent = chipLabel(i + index * 5 + state.count);
+          laneNode.appendChild(chip);
+        }
+
+        const meterValue = Math.max(8, Math.min(96, state.count * 3));
+        meterNode.style.setProperty("--meter", `${meterValue}%`);
+      });
+    }
+
+    function renderReminders() {
+      reminderList.innerHTML = "";
+      reminderState.forEach((item, index) => {
+        const row = document.createElement("li");
+        row.className = `reminder-row ${statusClass(item.status)}`;
+        row.style.animationDelay = `${index * 90}ms`;
+
+        const fill = item.status === "completed" ? 100 : Math.max(8, Math.min(96, 100 - item.eta));
+        const etaLabel = item.status === "completed" ? "Done" : `ETA ${item.eta}m`;
+
+        row.innerHTML = `
+          <div>
+            <p class="reminder-title">${item.title}</p>
+            <small>${item.owner}</small>
+          </div>
+          <div class="reminder-meta">
+            <span class="status-chip">${titleCase(item.status)}</span>
+            <small>${etaLabel}</small>
+          </div>
+          <div class="progress-track"><span class="progress-fill" style="--fill:${fill}%"></span></div>
+        `;
+
+        reminderList.appendChild(row);
+      });
+    }
+
+    function renderFeed() {
+      feedList.innerHTML = "";
+      feedState.forEach((entry, index) => {
+        const row = document.createElement("li");
+        row.className = "feed-row";
+        row.style.animationDelay = `${index * 70}ms`;
+        row.innerHTML = `
+          <span class="channel-badge ${feedChannelClass(entry.channel)}">${titleCase(entry.channel)}</span>
+          <p>${entry.text}</p>
+          <small>${entry.time}</small>
+        `;
+        feedList.appendChild(row);
+      });
+    }
+
+    function updateKpis(prev = null) {
+      const activeLeads = stageState.reduce((sum, stage) => sum + stage.count, 0);
+      const reservations =
+        (stageState.find((stage) => stage.key === "reservation")?.count || 0) +
+        (stageState.find((stage) => stage.key === "spa_issued")?.count || 0);
+      const slaDue = reminderState.filter((item) => item.status === "pending" || item.status === "overdue").length;
+
+      animateNumber(kpiLeads, prev?.activeLeads ?? activeLeads, activeLeads);
+      animateNumber(kpiReservations, prev?.reservations ?? reservations, reservations);
+      animateNumber(kpiSlaDue, prev?.slaDue ?? slaDue, slaDue);
+      animateNumber(kpiOutreach, prev?.outreach ?? outreachCount, outreachCount);
+    }
+
+    const feedTemplates = [
+      { channel: "email", text: "Campaign update delivered to broker segment" },
+      { channel: "whatsapp", text: "Lead response logged from site visit follow-up" },
+      { channel: "phone", text: "Call disposition updated on lead timeline" },
+      { channel: "in_person", text: "Meeting note saved to communication log" },
+    ];
+
+    function tick() {
+      const prevPipeline = stageState.map((stage) => ({ ...stage }));
+      const prevKpi = {
+        activeLeads: stageState.reduce((sum, stage) => sum + stage.count, 0),
+        reservations:
+          (stageState.find((stage) => stage.key === "reservation")?.count || 0) +
+          (stageState.find((stage) => stage.key === "spa_issued")?.count || 0),
+        slaDue: reminderState.filter((item) => item.status === "pending" || item.status === "overdue").length,
+        outreach: outreachCount,
+      };
+
+      const movingIndex = Math.max(
+        0,
+        stageState.findIndex((stage, idx) => idx < stageState.length - 1 && stage.count > 1),
+      );
+      const targetIndex = Math.min(stageState.length - 1, movingIndex + 1);
+
+      if (targetIndex !== movingIndex && stageState[movingIndex].count > 1) {
+        stageState[movingIndex].count -= 1;
+        stageState[targetIndex].count += 1;
+      }
+
+      if (Math.random() > 0.55) {
+        stageState[0].count += 1;
+      }
+
+      if (Math.random() > 0.75 && stageState[stageState.length - 1].count > 1) {
+        stageState[stageState.length - 1].count -= 1;
+      }
+
+      reminderState = reminderState.map((item) => {
+        if (item.status === "completed") return item;
+
+        const nextEta = Math.max(0, item.eta - (Math.random() > 0.5 ? 5 : 10));
+
+        if (item.status === "pending" && nextEta <= 20) {
+          return { ...item, eta: nextEta, status: "overdue" };
+        }
+
+        if (item.status === "overdue" && nextEta <= 10) {
+          return { ...item, eta: nextEta, status: "escalated" };
+        }
+
+        if (item.status === "escalated" && nextEta === 0 && Math.random() > 0.55) {
+          return { ...item, eta: 0, status: "completed" };
+        }
+
+        return { ...item, eta: nextEta };
+      });
+
+      if (Math.random() > 0.7) {
+        reminderState = [
+          { title: "Review new inquiry handoff", owner: "Dayo", status: "pending", eta: 65 },
+          ...reminderState.slice(0, 3),
+        ];
+      }
+
+      outreachCount += Math.random() > 0.5 ? 1 : 0;
+
+      const nextFeed = feedTemplates[Math.floor(Math.random() * feedTemplates.length)];
+      feedState = [
+        {
+          ...nextFeed,
+          time: "just now",
+        },
+        ...feedState.slice(0, 5).map((item) => {
+          const minutes = Number.parseInt(item.time, 10);
+          if (Number.isFinite(minutes)) {
+            return { ...item, time: `${minutes + 2}m ago` };
+          }
+          if (item.time === "just now") {
+            return { ...item, time: "2m ago" };
+          }
+          return item;
+        }),
+      ];
+
+      renderPipeline(prevPipeline);
+      renderReminders();
+      renderFeed();
+      updateKpis(prevKpi);
+    }
+
+    renderPipeline();
+    renderReminders();
+    renderFeed();
+    updateKpis();
+
+    if (!reduceMotion) {
+      setInterval(tick, 2400);
+    }
+  }
+
+  document.querySelectorAll("[data-crm-dashboard]").forEach(initDashboard);
+</script>
+
+<style>
+  .crm-animated-dashboard {
+    --bg: #f4f4f5;
+    --surface: #ffffff;
+    --surface-soft: #fafafa;
+    --ink: #111827;
+    --muted: #525252;
+    --line: #e5e5e5;
+    --ink-strong: #171717;
+    --ok-bg: #dcfce7;
+    --ok-text: #166534;
+    --warn-bg: #fef3c7;
+    --warn-text: #92400e;
+    --risk-bg: #fee2e2;
+    --risk-text: #991b1b;
+
+    border: 1px solid var(--line);
+    background:
+      radial-gradient(circle at 0% 0%, #ffffff 0%, #f7f7f8 52%, #efeff0 100%);
+    border-radius: 20px;
+    padding: 1.1rem;
+    color: var(--ink);
+    box-shadow: 0 16px 42px rgba(17, 24, 39, 0.08);
+  }
+
+  .crm-header h2 {
+    margin: 0.35rem 0 0;
+    font-size: clamp(1.14rem, 2.2vw, 1.6rem);
+    line-height: 1.16;
+  }
+
+  .crm-header p {
+    margin: 0.45rem 0 0;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  .eyebrow {
+    margin: 0;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #737373;
+  }
+
+  .crm-modules {
+    margin-top: 0.9rem;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  .module-pill {
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    text-decoration: none;
+    color: inherit;
+    background: var(--surface);
+    padding: 0.55rem 0.6rem;
+    transition: transform 180ms ease, border-color 180ms ease;
+  }
+
+  .module-pill:hover {
+    border-color: #a3a3a3;
+    transform: translateY(-1px);
+  }
+
+  .module-pill span {
+    display: block;
+    font-size: 0.79rem;
+    font-weight: 700;
+  }
+
+  .module-pill small {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.7rem;
+    color: #6b7280;
+  }
+
+  .crm-kpis {
+    margin-top: 0.8rem;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  .kpi-card {
+    border: 1px solid var(--line);
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 0.55rem 0.65rem;
+  }
+
+  .kpi-card p {
+    margin: 0;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #737373;
+    font-weight: 700;
+  }
+
+  .kpi-card strong {
+    display: block;
+    margin-top: 0.28rem;
+    font-size: 1.22rem;
+    letter-spacing: -0.02em;
+  }
+
+  .crm-grid {
+    margin-top: 0.8rem;
+    display: grid;
+    grid-template-columns: 1.2fr 0.9fr 0.9fr;
+    gap: 0.6rem;
+  }
+
+  .panel {
+    border: 1px solid var(--line);
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 0.7rem;
+    min-height: 370px;
+  }
+
+  .panel-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.6rem;
+  }
+
+  .panel-head a {
+    border: 1px solid #d4d4d4;
+    border-radius: 999px;
+    padding: 0.3rem 0.55rem;
+    font-size: 0.68rem;
+    color: #1f2937;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .panel-eyebrow {
+    margin: 0;
+    font-size: 0.64rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #737373;
+    font-weight: 700;
+  }
+
+  .panel-head h3 {
+    margin: 0.25rem 0 0;
+    font-size: 0.98rem;
+  }
+
+  .stage-grid {
+    margin-top: 0.65rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.45rem;
+  }
+
+  .stage-col {
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--surface-soft);
+    padding: 0.45rem;
+  }
+
+  .stage-col header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.4rem;
+  }
+
+  .stage-col header p {
+    margin: 0;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #1f2937;
+  }
+
+  .stage-col header span {
+    margin: 0;
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: #4b5563;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stage-lane {
+    margin-top: 0.38rem;
+    min-height: 38px;
+    display: flex;
+    gap: 0.24rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .lead-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    border: 1px solid #d4d4d8;
+    background: #fff;
+    font-size: 0.63rem;
+    font-weight: 700;
+    color: #3f3f46;
+    padding: 0.1rem 0.42rem;
+    animation: chipPulse 1.2s ease-in-out infinite alternate;
+  }
+
+  .stage-meter {
+    margin-top: 0.45rem;
+    border-radius: 999px;
+    height: 6px;
+    background: #e5e7eb;
+    overflow: hidden;
+  }
+
+  .stage-meter span {
+    display: block;
+    height: 100%;
+    width: var(--meter, 25%);
+    background: linear-gradient(90deg, #52525b, #18181b);
+    transition: width 520ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .reminder-list,
+  .feed-list {
+    margin: 0.68rem 0 0;
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 0.44rem;
+  }
+
+  .reminder-row,
+  .feed-row {
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--surface-soft);
+    padding: 0.45rem 0.52rem;
+    animation: rowEnter 340ms ease both;
+  }
+
+  .reminder-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "main meta"
+      "progress progress";
+    gap: 0.35rem 0.5rem;
+  }
+
+  .reminder-row > div:first-child {
+    grid-area: main;
+  }
+
+  .reminder-meta {
+    grid-area: meta;
+    text-align: right;
+    display: grid;
+    gap: 0.2rem;
+  }
+
+  .reminder-title {
+    margin: 0;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #1f2937;
+  }
+
+  .reminder-row small {
+    color: #6b7280;
+    font-size: 0.69rem;
+  }
+
+  .status-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    padding: 0.11rem 0.5rem;
+    font-size: 0.62rem;
+    font-weight: 700;
+    border: 1px solid transparent;
+  }
+
+  .reminder-row.is-completed .status-chip {
+    background: var(--ok-bg);
+    color: var(--ok-text);
+    border-color: #bbf7d0;
+  }
+
+  .reminder-row.is-pending .status-chip {
+    background: #f3f4f6;
+    color: #374151;
+    border-color: #e5e7eb;
+  }
+
+  .reminder-row.is-overdue .status-chip {
+    background: var(--warn-bg);
+    color: var(--warn-text);
+    border-color: #fde68a;
+  }
+
+  .reminder-row.is-escalated .status-chip {
+    background: var(--risk-bg);
+    color: var(--risk-text);
+    border-color: #fecaca;
+  }
+
+  .progress-track {
+    grid-area: progress;
+    border-radius: 999px;
+    background: #e5e7eb;
+    height: 5px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    display: block;
+    height: 100%;
+    width: var(--fill, 30%);
+    border-radius: 999px;
+    background: linear-gradient(90deg, #4b5563, #111827);
+    transition: width 400ms ease;
+  }
+
+  .feed-row {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  .feed-row p {
+    margin: 0;
+    font-size: 0.75rem;
+    color: #1f2937;
+    line-height: 1.25;
+  }
+
+  .feed-row small {
+    font-size: 0.68rem;
+    color: #6b7280;
+    white-space: nowrap;
+  }
+
+  .channel-badge {
+    border-radius: 999px;
+    padding: 0.12rem 0.5rem;
+    font-size: 0.62rem;
+    font-weight: 700;
+    border: 1px solid transparent;
+    white-space: nowrap;
+  }
+
+  .channel-badge.ch-email {
+    background: #e5e7eb;
+    color: #374151;
+    border-color: #d1d5db;
+  }
+
+  .channel-badge.ch-whatsapp {
+    background: #dcfce7;
+    color: #166534;
+    border-color: #bbf7d0;
+  }
+
+  .channel-badge.ch-phone {
+    background: #f3f4f6;
+    color: #374151;
+    border-color: #e5e7eb;
+  }
+
+  .channel-badge.ch-in-person {
+    background: #e5e7eb;
+    color: #374151;
+    border-color: #d1d5db;
+  }
+
+  .channel-badge.ch-generic {
+    background: #f5f5f5;
+    color: #3f3f46;
+    border-color: #e4e4e7;
+  }
+
+  @keyframes chipPulse {
+    from {
+      transform: translateY(0);
+      opacity: 0.9;
+    }
+    to {
+      transform: translateY(-1px);
+      opacity: 1;
+    }
+  }
+
+  @keyframes rowEnter {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 1100px) {
+    .crm-modules {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .crm-kpis {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .crm-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .panel {
+      min-height: auto;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lead-chip,
+    .reminder-row,
+    .feed-row,
+    .module-pill,
+    .stage-meter span,
+    .progress-fill {
+      animation: none;
+      transition: none;
+    }
+  }
+</style>

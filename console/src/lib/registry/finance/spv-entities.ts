@@ -1,0 +1,82 @@
+import { registerResource } from "../index";
+
+registerResource({
+  key: "spv-entities",
+  module: "finance",
+  label: "SPV Entity",
+  labelPlural: "SPV Entities",
+  endpoint: "/finance/spv-entities/",
+  columns: [
+    { key: "name", label: "Name", type: "text", sortable: true },
+    { key: "entity_type", label: "Entity Type", type: "badge" },
+    { key: "status", label: "Status", type: "badge" },
+    { key: "registration_number", label: "Registration #", type: "text" },
+    { key: "jurisdiction", label: "Jurisdiction", type: "text" },
+    { key: "is_active", label: "Active", type: "boolean" },
+  ],
+  filters: [
+    { key: "search", label: "Search", type: "search", placeholder: "Search SPV entities..." },
+    {
+      key: "entity_type",
+      label: "Entity Type",
+      type: "select",
+      options: [
+        { value: "COMPANY", label: "Company" },
+        { value: "LLP", label: "LLP" },
+        { value: "TRUST", label: "Trust" },
+        { value: "FUND", label: "Fund" },
+        { value: "LLC", label: "LLC" },
+        { value: "OTHER", label: "Other" },
+      ],
+    },
+    {
+      key: "status",
+      label: "Status",
+      type: "select",
+      options: [
+        { value: "ACTIVE", label: "Active" },
+        { value: "DORMANT", label: "Dormant" },
+        { value: "DISSOLVED", label: "Dissolved" },
+        { value: "UNDER_FORMATION", label: "Under Formation" },
+      ],
+    },
+  ],
+  formFields: [
+    { key: "name", label: "Name", type: "text", required: true },
+    {
+      key: "entity_type",
+      label: "Entity Type",
+      type: "select",
+      required: true,
+      options: [
+        { value: "COMPANY", label: "Company" },
+        { value: "LLP", label: "LLP" },
+        { value: "TRUST", label: "Trust" },
+        { value: "FUND", label: "Fund" },
+        { value: "LLC", label: "LLC" },
+        { value: "OTHER", label: "Other" },
+      ],
+    },
+    {
+      key: "status",
+      label: "Status",
+      type: "select",
+      options: [
+        { value: "ACTIVE", label: "Active" },
+        { value: "DORMANT", label: "Dormant" },
+        { value: "DISSOLVED", label: "Dissolved" },
+        { value: "UNDER_FORMATION", label: "Under Formation" },
+      ],
+    },
+    { key: "registration_number", label: "Registration Number", type: "text" },
+    { key: "registration_date", label: "Registration Date", type: "date" },
+    { key: "tax_id", label: "Tax ID", type: "text" },
+    { key: "jurisdiction", label: "Jurisdiction", type: "text" },
+    { key: "authorized_capital", label: "Authorized Capital", type: "currency" },
+    { key: "paid_up_capital", label: "Paid-up Capital", type: "currency" },
+    { key: "registered_address", label: "Registered Address", type: "textarea" },
+    { key: "purpose", label: "Purpose", type: "textarea", gridSpan: 2 },
+    { key: "is_active", label: "Active", type: "boolean", defaultValue: true },
+    { key: "notes", label: "Notes", type: "textarea", gridSpan: 2 },
+  ],
+});

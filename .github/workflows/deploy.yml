@@ -1,0 +1,99 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: |
+            client/package-lock.json
+            console/package-lock.json
+
+      - name: Build client
+        working-directory: client
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        run: |
+          npm ci --legacy-peer-deps
+          npm run build
+
+      - name: Build console
+        working-directory: console
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        run: |
+          npm ci --legacy-peer-deps
+          npm run build
+
+      - name: Setup SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.PRODUCTION_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.PRODUCTION_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Sync project to server
+        run: |
+          rsync -avz --delete \
+            --exclude 'node_modules' \
+            --exclude '.git' \
+            --exclude '.env*' \
+            --exclude '__pycache__' \
+            --exclude '*.pyc' \
+            --exclude 'client/node_modules' \
+            --exclude 'client/.svelte-kit' \
+            --exclude 'client/build' \
+            --exclude 'console/node_modules' \
+            --exclude 'console/.svelte-kit' \
+            --exclude 'console/build' \
+            --exclude 'secrets' \
+            --exclude '.venv' \
+            --exclude 'server/.venv' \
+            ./ root@${{ secrets.PRODUCTION_HOST }}:/opt/developerOS/
+
+      - name: Deploy frontend builds
+        run: |
+          rsync -avz --delete client/build/ root@${{ secrets.PRODUCTION_HOST }}:/var/www/developeros/client/
+          rsync -avz --delete console/build/ root@${{ secrets.PRODUCTION_HOST }}:/var/www/developeros/console/
+
+      - name: Update Nginx config
+        run: |
+          rsync -avz deploy/nginx/production.conf root@${{ secrets.PRODUCTION_HOST }}:/tmp/developeros.conf
+          ssh root@${{ secrets.PRODUCTION_HOST }} "\
+            cp /tmp/developeros.conf /etc/nginx/sites-available/developeros && \
+            ln -sf /etc/nginx/sites-available/developeros /etc/nginx/sites-enabled/developeros && \
+            nginx -t && systemctl reload nginx"
+
+      - name: Build and restart backend
+        run: |
+          ssh root@${{ secrets.PRODUCTION_HOST }} "\
+            cd /opt/developerOS && \
+            docker compose -f docker-compose.hostinger.yml up -d --build && \
+            docker compose -f docker-compose.hostinger.yml exec -T server python manage.py migrate --noinput && \
+            docker compose -f docker-compose.hostinger.yml exec -T server python manage.py collectstatic --noinput && \
+            docker compose -f docker-compose.hostinger.yml exec -T server python manage.py seed_platform_suite || true && \
+            docker compose -f docker-compose.hostinger.yml exec -T server python manage.py seed_rbac || true && \
+            docker compose -f docker-compose.hostinger.yml exec -T server python manage.py seed_status_badges || true && \
+            docker compose -f docker-compose.hostinger.yml exec -T server python manage.py seed_master_data || true && \
+            docker compose -f docker-compose.hostinger.yml exec -T server python manage.py seed_feature_flags || true && \
+            docker compose -f docker-compose.hostinger.yml exec -T server python manage.py seed_project_templates || true && \
+            docker compose -f docker-compose.hostinger.yml exec -T server python manage.py seed_demo_suite || true"
+
+      - name: Health check
+        run: |
+          sleep 8
+          curl -sf https://api.developeros.pro/api/health/ > /dev/null && echo "API: OK" || echo "API: FAILED"
+          curl -sf https://app.developeros.pro > /dev/null && echo "App: OK" || echo "App: FAILED"
+          curl -sf https://console.developeros.pro > /dev/null && echo "Console: OK" || echo "Console: FAILED"

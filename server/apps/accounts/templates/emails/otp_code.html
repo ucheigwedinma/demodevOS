@@ -1,0 +1,80 @@
+{% extends "emails/base.html" %}
+
+{% block title %}Your developerOS Verification Code{% endblock %}
+{% block preheader %}Your verification code is {{ otp }}. Valid for 5 minutes.{% endblock %}
+
+{% block body %}
+<!-- Greeting -->
+<h1 style="margin: 0 0 4px 0; font-size: 22px; font-weight: 700; color: #0a0a0a; line-height: 1.3; font-family: 'Raleway', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+  Hi {{ first_name }},
+</h1>
+<p style="margin: 0 0 28px 0; font-size: 14px; line-height: 1.6; color: #a3a3a3; font-family: 'Raleway', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+  A sign-in attempt requires verification.
+</p>
+
+<p style="margin: 0 0 20px 0; font-size: 15px; line-height: 1.7; color: #404040; font-family: 'Raleway', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+  Enter the code below to continue:
+</p>
+
+<!-- OTP Code -->
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+  <tr>
+    <td align="center">
+      <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td style="background-color: #0a0a0a; border-radius: 12px; padding: 24px 56px;">
+            <p style="margin: 0; font-size: 38px; font-weight: 700; letter-spacing: 12px; color: #ffffff; font-family: 'Raleway', 'Helvetica Neue', Helvetica, Arial, sans-serif; text-align: center;">
+              {{ otp }}
+            </p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<!-- Expiry badge -->
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin-top: 16px;">
+  <tr>
+    <td align="center">
+      <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td style="background-color: #fafafa; border: 1px solid #e5e5e5; border-radius: 20px; padding: 6px 16px;">
+            <p style="margin: 0; font-size: 12px; font-weight: 600; color: #737373; font-family: 'Raleway', 'Helvetica Neue', Helvetica, Arial, sans-serif; text-transform: uppercase; letter-spacing: 0.5px;">
+              &#9202; Expires in 5 minutes
+            </p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<!-- Security callout -->
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin-top: 32px;">
+  <tr>
+    <td style="background-color: #fafafa; border-radius: 10px; padding: 20px 24px; border-left: 3px solid #d4d4d4;">
+      <p style="margin: 0 0 4px 0; font-size: 13px; font-weight: 700; color: #525252; font-family: 'Raleway', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+        Didn't request this?
+      </p>
+      <p style="margin: 0; font-size: 13px; line-height: 1.6; color: #737373; font-family: 'Raleway', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+        If you didn't try to sign in, you can safely ignore this email. Your account is secure &mdash; no action is needed.
+      </p>
+    </td>
+  </tr>
+</table>
+
+<!-- Sign off -->
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin-top: 32px;">
+  <tr>
+    <td style="border-top: 1px solid #f0f0f0; padding-top: 24px;">
+      <p style="margin: 0; font-size: 15px; line-height: 1.7; color: #404040; font-family: 'Raleway', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+        Stay secure,
+      </p>
+      <p style="margin: 4px 0 0 0; font-size: 15px; line-height: 1.7; font-family: 'Raleway', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+        The <span style="font-weight: 400; color: #0a0a0a;">developer</span><span style="font-weight: 700; color: #a3a3a3;">OS</span> Team
+      </p>
+    </td>
+  </tr>
+</table>
+{% endblock %}

@@ -1,0 +1,74 @@
+# Django core
+Django>=5.2.12,<5.3
+djangorestframework==3.15.*
+django-cors-headers==4.6.*
+djangorestframework-simplejwt==5.5.*
+PyJWT>=2.12,<3
+drf-spectacular>=0.28
+django-filter==25.*
+
+# Database
+psycopg[binary]==3.2.*
+
+# Background tasks
+celery==5.4.*
+django-celery-beat==2.8.*
+redis==5.2.*
+
+# Storage
+django-storages[s3]==1.14.*
+boto3==1.35.*
+
+# Auth & Permissions
+django-guardian==2.4.*
+authlib==1.6.*
+argon2-cffi==23.1.*
+pyotp==2.9.*
+qrcode[pil]==8.*
+webauthn==2.*
+
+# Audit
+django-auditlog==3.0.*
+
+# Spatial Data
+GIS==0.2.1
+# django.contrib.gis (built-in, requires GDAL)
+
+# Documents
+weasyprint==68.*
+python-docx==1.1.*
+openpyxl==3.1.*
+pypdf>=6.8,<7
+pdf2image==1.17.*
+pytesseract==0.3.13
+
+# AI/ML (install when needed)
+# scikit-learn
+# xgboost
+spacy==3.8.11
+numpy-financial==1.0.0
+numpy==2.4.2
+pandas==3.0.1
+
+# Admin UI
+django-unfold>=0.83
+
+# Security headers
+django-csp==4.*
+django-permissions-policy==4.*
+
+# Static files (production)
+whitenoise==6.*
+
+# ASGI server + WebSocket support
+daphne==4.*
+channels==4.*
+channels-redis==4.*
+
+# WSGI server (fallback)
+gunicorn==23.*
+
+# Dev tools
+django-extensions==3.2.*
+django-debug-toolbar==4.4.*
+python-dotenv==1.0.*

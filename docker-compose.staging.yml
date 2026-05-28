@@ -1,0 +1,138 @@
+# ============================================================
+# developerOS — Staging Docker Compose
+# Same architecture as production, different env
+# ============================================================
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: developeros-db
+    restart: always
+    environment:
+      POSTGRES_DB: developerOS
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5432:5432"
+    secrets:
+      - db_password
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:alpine
+    container_name: developeros-redis
+    restart: always
+    volumes:
+      - redisdata:/data
+    ports:
+      - "127.0.0.1:6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: developeros-server
+    command: daphne -b 0.0.0.0 -p 8000 config.asgi:application
+    restart: always
+    env_file:
+      - .env.staging
+    environment:
+      DJANGO_SETTINGS_MODULE: config.settings.production
+      DB_NAME: developerOS
+      DB_USER: postgres
+      DB_HOST: db
+      DB_PORT: "5432"
+      REDIS_URL: redis://redis:6379/1
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/0
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - staticfiles:/app/staticfiles
+      - media:/app/media
+    ports:
+      - "127.0.0.1:8000:8000"
+    secrets:
+      - db_password
+      - django_secret_key
+
+  celery:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: developeros-celery
+    command: celery -A config.celery worker -l info --concurrency=2
+    restart: always
+    env_file:
+      - .env.staging
+    environment:
+      DJANGO_SETTINGS_MODULE: config.settings.production
+      DB_NAME: developerOS
+      DB_USER: postgres
+      DB_HOST: db
+      DB_PORT: "5432"
+      REDIS_URL: redis://redis:6379/1
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/0
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - media:/app/media
+    secrets:
+      - db_password
+      - django_secret_key
+
+  celery-beat:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: developeros-celery-beat
+    command: celery -A config.celery beat -l info
+    restart: always
+    env_file:
+      - .env.staging
+    environment:
+      DJANGO_SETTINGS_MODULE: config.settings.production
+      DB_NAME: developerOS
+      DB_USER: postgres
+      DB_HOST: db
+      DB_PORT: "5432"
+      REDIS_URL: redis://redis:6379/1
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/0
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    secrets:
+      - db_password
+      - django_secret_key
+
+volumes:
+  pgdata:
+  redisdata:
+  staticfiles:
+  media:
+
+secrets:
+  django_secret_key:
+    file: ./secrets/django_secret_key
+  db_password:
+    file: ./secrets/db_password

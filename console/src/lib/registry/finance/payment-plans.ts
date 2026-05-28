@@ -1,0 +1,101 @@
+import { registerResource } from "../index";
+
+registerResource({
+  key: "payment-plans",
+  module: "finance",
+  label: "Payment Plan",
+  labelPlural: "Payment Plans",
+  endpoint: "/finance/payment-plans/",
+  columns: [
+    { key: "plan_number", label: "Plan #", type: "text", sortable: true },
+    { key: "title", label: "Title", type: "text", sortable: true },
+    { key: "status", label: "Status", type: "badge" },
+    { key: "plan_type", label: "Plan Type", type: "text" },
+    { key: "direction", label: "Direction", type: "badge" },
+    { key: "total_amount", label: "Total Amount", type: "currency" },
+    { key: "start_date", label: "Start Date", type: "date", sortable: true },
+  ],
+  filters: [
+    { key: "search", label: "Search", type: "search", placeholder: "Search payment plans..." },
+    {
+      key: "status",
+      label: "Status",
+      type: "select",
+      options: [
+        { value: "DRAFT", label: "Draft" },
+        { value: "ACTIVE", label: "Active" },
+        { value: "PAUSED", label: "Paused" },
+        { value: "COMPLETED", label: "Completed" },
+        { value: "CANCELLED", label: "Cancelled" },
+      ],
+    },
+    {
+      key: "direction",
+      label: "Direction",
+      type: "select",
+      options: [
+        { value: "RECEIVABLE", label: "Receivable" },
+        { value: "PAYABLE", label: "Payable" },
+      ],
+    },
+  ],
+  formFields: [
+    { key: "title", label: "Title", type: "text", required: true },
+    {
+      key: "plan_type",
+      label: "Plan Type",
+      type: "select",
+      options: [
+        { value: "FIXED_INSTALLMENT", label: "Fixed Installment" },
+        { value: "MILESTONE_BASED", label: "Milestone Based" },
+        { value: "PERCENTAGE_BASED", label: "Percentage Based" },
+        { value: "CUSTOM", label: "Custom" },
+      ],
+    },
+    {
+      key: "direction",
+      label: "Direction",
+      type: "select",
+      required: true,
+      options: [
+        { value: "RECEIVABLE", label: "Receivable" },
+        { value: "PAYABLE", label: "Payable" },
+      ],
+    },
+    {
+      key: "frequency",
+      label: "Frequency",
+      type: "select",
+      options: [
+        { value: "WEEKLY", label: "Weekly" },
+        { value: "BIWEEKLY", label: "Biweekly" },
+        { value: "MONTHLY", label: "Monthly" },
+        { value: "QUARTERLY", label: "Quarterly" },
+        { value: "SEMI_ANNUAL", label: "Semi-Annual" },
+        { value: "ANNUAL", label: "Annual" },
+        { value: "ONE_TIME", label: "One Time" },
+      ],
+    },
+    { key: "total_amount", label: "Total Amount", type: "currency", required: true },
+    { key: "currency", label: "Currency", type: "text", defaultValue: "USD" },
+    { key: "start_date", label: "Start Date", type: "date", required: true },
+    { key: "end_date", label: "End Date", type: "date" },
+    { key: "number_of_installments", label: "Number of Installments", type: "number" },
+    {
+      key: "status",
+      label: "Status",
+      type: "select",
+      options: [
+        { value: "DRAFT", label: "Draft" },
+        { value: "ACTIVE", label: "Active" },
+        { value: "PAUSED", label: "Paused" },
+        { value: "COMPLETED", label: "Completed" },
+        { value: "CANCELLED", label: "Cancelled" },
+      ],
+    },
+    { key: "customer", label: "Customer", type: "relation_picker", optionsEndpoint: "/finance/customers/" },
+    { key: "project", label: "Project", type: "relation_picker", optionsEndpoint: "/projects/" },
+    { key: "description", label: "Description", type: "textarea", gridSpan: 2 },
+    { key: "notes", label: "Notes", type: "textarea", gridSpan: 2 },
+  ],
+});

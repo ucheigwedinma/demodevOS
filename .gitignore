@@ -1,0 +1,62 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
+dist/
+build/
+.eggs/
+*.so
+venv/
+.venv/
+
+# Django
+server/staticfiles/
+server/media/
+server/.env
+server/.env.*
+!server/.env.example
+!server/.env.prod.example
+db.sqlite3
+
+# Node / SvelteKit
+client/node_modules/
+client/.svelte-kit/
+client/build/
+client/.env
+client/.env.*
+!client/.env.example
+console/node_modules/
+console/.svelte-kit/
+console/build/
+console/.env
+console/.env.*
+!console/.env.example
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Docker
+.docker/
+
+# Deploy / SSL / Secrets
+.env
+nginx/ssl/
+deploy.log
+secrets/*
+!secrets/.gitkeep
+!secrets/README.md
+
+# Misc
+*.log
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Claude Code local skills (symlink to ~/.claude/skills, not committed)
+.claude/skills

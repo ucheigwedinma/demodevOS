@@ -1,0 +1,333 @@
+{
+  "generated_from": [
+    "client/src/routes/+layout.svelte",
+    "client/src/lib/supportDesk.ts",
+    "client/src/routes/reports/+layout.svelte",
+    "client/src/routes/reports/+page.svelte",
+    "client/src/routes/reports/[id]/+page.svelte",
+    "client/src/routes/reports/run/+page.svelte",
+    "client/src/routes/reports/saved-views/+page.svelte",
+    "client/src/routes/reports/subscriptions/+page.svelte",
+    "client/src/routes/reports/exports/+page.svelte",
+    "client/src/routes/reports/scheduled/+page.svelte",
+    "client/src/routes/reports/notifications/+page.svelte",
+    "client/src/routes/reports/dashboard/+page.svelte",
+    "client/src/routes/reports/drill-through/+page.svelte",
+    "client/src/routes/reports/builder/+page.svelte"
+  ],
+  "generated_at": "2026-03-07",
+  "app_navigation": {
+    "top_nav": [
+      { "label": "Reports", "href": "/reports" },
+      { "label": "Identity & Access Management", "href": "/iam/users" },
+      { "label": "Settings", "href": "/settings" }
+    ],
+    "sidebar_sections": [
+      {
+        "key": "dashboard",
+        "label": "Dashboard",
+        "href": "/",
+        "sub_items": [
+          { "label": "Portfolio Analytics", "href": "/" },
+          { "label": "Board Metrics", "href": "/dashboard/board-metrics" }
+        ]
+      },
+      {
+        "key": "projects",
+        "label": "Projects",
+        "href": "/projects",
+        "sub_items": [
+          { "label": "Execution Stats", "href": "/projects/execution-stats" },
+          { "label": "Projects Overview", "href": "/projects" },
+          { "label": "Tasks & Work Packages", "href": "/projects/tasks" },
+          { "label": "Phases & Milestones", "href": "/projects/phases-milestones" },
+          { "label": "Budget & Cost", "href": "/projects/budget-cost" },
+          { "label": "Field Operations", "href": "/projects/field-operations" },
+          { "label": "Issues", "href": "/projects/issues" },
+          { "label": "Variations", "href": "/projects/variations" },
+          { "label": "Risk Register", "href": "/projects/risk-register" },
+          { "label": "Templates", "href": "/projects/templates" }
+        ]
+      },
+      {
+        "key": "properties",
+        "label": "Properties",
+        "href": "/properties",
+        "sub_items": [
+          { "label": "Property Registry", "href": "/properties" },
+          { "label": "Portfolio Segmentation", "href": "/properties/segmentation" },
+          { "label": "Facilities & Maintenance", "href": "/properties/maintenance" },
+          { "label": "Compliance", "href": "/properties/compliance" },
+          { "label": "Valuations", "href": "/properties/valuations" }
+        ]
+      },
+      {
+        "key": "documents",
+        "label": "Documents",
+        "href": "/documents",
+        "sub_items": [
+          { "label": "Dashboard", "href": "/documents/dashboard" },
+          { "label": "Repository", "href": "/documents/repository" },
+          { "label": "OCR Extraction", "href": "/documents/ocr" },
+          { "label": "E-Signatures", "href": "/documents/signatures" },
+          { "label": "Document Generator", "href": "/documents/generator" }
+        ]
+      },
+      {
+        "key": "procurement",
+        "label": "Procurement",
+        "href": "/procurement",
+        "sub_items": [
+          { "label": "Overview", "href": "/procurement" },
+          { "label": "Vendors", "href": "/procurement/vendors" },
+          { "label": "Purchase Requests", "href": "/procurement/requisitions" },
+          { "label": "RFQs", "href": "/procurement/rfqs" },
+          { "label": "Tender Comparisons", "href": "/procurement/tender-comparisons" },
+          { "label": "Vendor Selection", "href": "/procurement/vendor-selection" },
+          { "label": "Purchase Orders", "href": "/procurement/purchase-orders" },
+          { "label": "Delivery Tracking", "href": "/procurement/delivery-tracking" },
+          { "label": "Goods Received Notes", "href": "/procurement/goods-receipts" }
+        ]
+      },
+      {
+        "key": "contracts",
+        "label": "Contracts",
+        "href": "/contracts",
+        "sub_items": [
+          { "label": "Overview", "href": "/contracts" },
+          { "label": "Main Contracts", "href": "/contracts/main-contracts" },
+          { "label": "Subcontracts", "href": "/contracts/subcontracts" },
+          { "label": "Variation Orders", "href": "/contracts/variation-orders" },
+          { "label": "Payment Terms", "href": "/contracts/payment-terms" },
+          { "label": "Value vs Executed", "href": "/contracts/value-vs-executed" },
+          { "label": "Retention Tracking", "href": "/contracts/retention-tracking" },
+          { "label": "Claims Management", "href": "/contracts/claims-management" },
+          { "label": "Dispute Log", "href": "/contracts/dispute-log" }
+        ]
+      },
+      {
+        "key": "crm",
+        "label": "CRM",
+        "href": "/crm",
+        "sub_items": [
+          { "label": "Leads & Pipeline", "href": "/crm/leads" },
+          { "label": "Reservations", "href": "/crm/reservations" },
+          { "label": "Financial Pre-Assessment", "href": "/crm/assessments" },
+          { "label": "Brokers & Partners", "href": "/crm/brokers" },
+          { "label": "Communication Engine", "href": "/crm/communications" }
+        ]
+      },
+      {
+        "key": "support-desk",
+        "label": "Support Desk",
+        "href": "/support-desk",
+        "sub_items": [
+          { "label": "Overview", "href": "/support-desk" },
+          { "label": "Tickets", "href": "/support-desk/tickets" },
+          { "label": "Requests", "href": "/support-desk/requests" },
+          { "label": "Knowledge Base", "href": "/support-desk/knowledge-base" },
+          { "label": "SLA & Escalations", "href": "/support-desk/sla-escalations" },
+          { "label": "Communication", "href": "/support-desk/communication" },
+          { "label": "Automation", "href": "/support-desk/automation" },
+          { "label": "Reports", "href": "/support-desk/reports" },
+          { "label": "Configuration", "href": "/support-desk/configuration" }
+        ]
+      },
+      {
+        "key": "partners",
+        "label": "Partners",
+        "href": "/partners",
+        "sub_items": [
+          { "label": "Onboarding Hub", "href": "/partners" }
+        ]
+      },
+      {
+        "key": "hr",
+        "label": "HR",
+        "href": "/hr",
+        "sub_items": [
+          { "label": "Organization Structure", "href": "/hr" },
+          { "label": "Employee Directory", "href": "/hr/employees" },
+          { "label": "Recruitment & Hiring", "href": "/hr/requisitions" },
+          { "label": "Onboarding", "href": "/hr/onboarding-templates" },
+          { "label": "Performance Management", "href": "/hr/performance-goals" },
+          { "label": "Skills & Capability", "href": "/hr/skills-matrix" },
+          { "label": "Learning & Development", "href": "/hr/training-courses" },
+          { "label": "Attendance & Leave", "href": "/hr/attendance-logs" },
+          { "label": "Payroll & Compensation", "href": "/hr/salary-structures" },
+          { "label": "Employee Lifecycle", "href": "/hr/promotions" },
+          { "label": "Workforce Analytics", "href": "/hr/headcount-analytics" },
+          { "label": "Documents & Policies", "href": "/hr/hr-policies" }
+        ]
+      },
+      {
+        "key": "inventory",
+        "label": "Inventory",
+        "href": "/inventory",
+        "sub_items": [
+          { "label": "Overview", "href": "/inventory" },
+          { "label": "Items", "href": "/inventory/items" },
+          { "label": "Stock", "href": "/inventory/stock" },
+          { "label": "Movements", "href": "/inventory/movements" },
+          { "label": "Warehouses", "href": "/inventory/warehouses" }
+        ]
+      },
+      {
+        "key": "finance",
+        "label": "Finance",
+        "href": "/finance",
+        "sub_items": [
+          { "label": "Overview", "href": "/finance" },
+          { "label": "Bills", "href": "/finance/bills" },
+          { "label": "Invoices", "href": "/finance/invoices" },
+          { "label": "Customers", "href": "/finance/customers" },
+          { "label": "Investors", "href": "/finance/investors" },
+          { "label": "Chart of Accounts", "href": "/finance/chart-of-accounts" },
+          { "label": "Journal Entries", "href": "/finance/journals" },
+          { "label": "Trial Balance", "href": "/finance/reports/trial-balance" },
+          { "label": "General Ledger", "href": "/finance/reports/general-ledger" },
+          { "label": "Budgets", "href": "/finance/budgets" },
+          { "label": "SPV Entities", "href": "/finance/spv" },
+          { "label": "Payment Plans", "href": "/finance/payment-plans" }
+        ]
+      }
+    ]
+  },
+  "reporting_workspace": {
+    "library": {
+      "path": "/reports",
+      "search_placeholder": "Search reports...",
+      "categories": [
+        "My Reports",
+        "Department Reports",
+        "Shared Reports",
+        "Scheduled Reports",
+        "Recently Viewed"
+      ],
+      "report_card_fields": [
+        "Report Name",
+        "Module Source",
+        "Description",
+        "Owner",
+        "Confidentiality label",
+        "Last run date",
+        "Run button"
+      ]
+    },
+    "menu": [
+      {
+        "section": "Workspace",
+        "items": [
+          { "label": "Reports Library", "href": "/reports" }
+        ]
+      },
+      {
+        "section": "Execution",
+        "items": [
+          { "label": "Run Reports", "href": "/reports/run" },
+          { "label": "Export Results", "href": "/reports/exports" },
+          { "label": "My Scheduled Reports", "href": "/reports/scheduled" },
+          { "label": "Drill-through Navigation", "href": "/reports/drill-through" }
+        ]
+      },
+      {
+        "section": "Personalization",
+        "items": [
+          { "label": "Saved Views", "href": "/reports/saved-views" },
+          { "label": "Subscriptions", "href": "/reports/subscriptions" },
+          { "label": "Dashboard Integration", "href": "/reports/dashboard" },
+          { "label": "Notifications", "href": "/reports/notifications" }
+        ]
+      },
+      {
+        "section": "Builder",
+        "items": [
+          { "label": "Simple Report Builder", "href": "/reports/builder" }
+        ]
+      }
+    ],
+    "execution_screen": {
+      "path_pattern": "/reports/[id]",
+      "filters": [
+        "Date Range",
+        "Department",
+        "Location",
+        "Employment Type"
+      ],
+      "results_blocks": [
+        "Table",
+        "Charts",
+        "KPIs",
+        "Summary"
+      ],
+      "actions": [
+        "Run Report",
+        "Export PDF",
+        "Export Excel",
+        "Export CSV",
+        "Print",
+        "Save View",
+        "Subscribe",
+        "Share"
+      ]
+    },
+    "interactive_capabilities": [
+      "Sorting",
+      "Column filtering",
+      "Drill-down",
+      "Pivot views",
+      "Chart switching"
+    ],
+    "saved_views": {
+      "path": "/reports/saved-views",
+      "example_names": [
+        "Finance Monthly Summary",
+        "HR Attrition Dashboard",
+        "Project Cost Tracker"
+      ],
+      "persists": [
+        "filters",
+        "columns",
+        "chart type"
+      ]
+    },
+    "subscriptions": {
+      "path": "/reports/subscriptions",
+      "frequency": ["Daily", "Weekly", "Monthly"],
+      "delivery": ["Email", "In-app notification", "Dashboard widget"],
+      "note": "Admin dispatches are organization-level. User subscriptions are personal-level."
+    },
+    "exports": {
+      "path": "/reports/exports",
+      "options": ["PDF", "Excel", "CSV", "Print"],
+      "policy": "Admin confidentiality-label settings can block file downloads."
+    },
+    "scheduled_reports": {
+      "path": "/reports/scheduled",
+      "status_indicators": ["Delivered", "Failed", "Pending"]
+    },
+    "notifications": {
+      "path": "/reports/notifications",
+      "actions": ["Download", "View"],
+      "category_filter": "reports_ready"
+    },
+    "dashboard_integration": {
+      "path": "/reports/dashboard",
+      "widget_actions": ["Open Report", "Refresh Now", "Remove"],
+      "refresh_options": ["Daily", "Weekly", "Monthly"]
+    },
+    "drill_through": {
+      "path": "/reports/drill-through",
+      "flow": [
+        "Revenue Summary",
+        "Region Revenue",
+        "Project Revenue",
+        "Invoice Details"
+      ]
+    },
+    "simple_builder": {
+      "path": "/reports/builder",
+      "rule": "Only templates flagged allow_simple_builder are available."
+    }
+  }
+}

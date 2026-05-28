@@ -1,0 +1,71 @@
+import { registerResource } from "../index";
+
+registerResource({
+  key: "hr-policies",
+  module: "hr",
+  label: "HR Policy",
+  labelPlural: "HR Policies",
+  endpoint: "/hr/hr-policies/",
+  columns: [
+    { key: "title", label: "Title", type: "text" },
+    { key: "category", label: "Category", type: "badge" },
+    { key: "status", label: "Status", type: "badge" },
+    { key: "version", label: "Version", type: "text" },
+    { key: "effective_date", label: "Effective Date", type: "date" },
+    { key: "department", label: "Department", type: "text" },
+  ],
+  filters: [
+    { key: "search", label: "Search", type: "search", placeholder: "Search..." },
+    {
+      key: "status",
+      label: "Status",
+      type: "select",
+      options: [
+        { value: "DRAFT", label: "Draft" },
+        { value: "UNDER_REVIEW", label: "Under Review" },
+        { value: "ACTIVE", label: "Active" },
+        { value: "ARCHIVED", label: "Archived" },
+      ],
+    },
+    {
+      key: "category",
+      label: "Category",
+      type: "select",
+      options: [
+        { value: "GENERAL", label: "General" },
+        { value: "EMPLOYMENT", label: "Employment" },
+        { value: "COMPENSATION", label: "Compensation" },
+        { value: "LEAVE", label: "Leave" },
+        { value: "CONDUCT", label: "Conduct" },
+        { value: "SAFETY", label: "Safety" },
+        { value: "DATA_PRIVACY", label: "Data Privacy" },
+        { value: "OTHER", label: "Other" },
+      ],
+    },
+  ],
+  formFields: [
+    { key: "title", label: "Title", type: "text", required: true },
+    { key: "category", label: "Category", type: "select", options: [
+      { value: "GENERAL", label: "General" },
+      { value: "EMPLOYMENT", label: "Employment" },
+      { value: "COMPENSATION", label: "Compensation" },
+      { value: "LEAVE", label: "Leave" },
+      { value: "CONDUCT", label: "Conduct" },
+      { value: "SAFETY", label: "Safety" },
+      { value: "DATA_PRIVACY", label: "Data Privacy" },
+      { value: "OTHER", label: "Other" },
+    ]},
+    { key: "version", label: "Version", type: "text" },
+    { key: "status", label: "Status", type: "select", options: [
+      { value: "DRAFT", label: "Draft" },
+      { value: "UNDER_REVIEW", label: "Under Review" },
+      { value: "ACTIVE", label: "Active" },
+      { value: "ARCHIVED", label: "Archived" },
+    ]},
+    { key: "effective_date", label: "Effective Date", type: "date" },
+    { key: "expiry_date", label: "Expiry Date", type: "date" },
+    { key: "department", label: "Department", type: "text" },
+    { key: "description", label: "Description", type: "textarea", gridSpan: 2 },
+    { key: "content", label: "Content", type: "textarea", gridSpan: 2 },
+  ],
+});

@@ -1,0 +1,70 @@
+import { registerResource } from "../index";
+
+registerResource({
+  key: "accounts",
+  module: "finance",
+  label: "GL Account",
+  labelPlural: "Chart of Accounts",
+  endpoint: "/finance/accounts/",
+  columns: [
+    { key: "code", label: "Code", type: "text", sortable: true },
+    { key: "name", label: "Name", type: "text", sortable: true },
+    { key: "account_type", label: "Account Type", type: "badge" },
+    { key: "sub_type", label: "Sub Type", type: "text" },
+    { key: "is_active", label: "Active", type: "boolean" },
+    { key: "is_system", label: "System", type: "boolean" },
+  ],
+  filters: [
+    { key: "search", label: "Search", type: "search", placeholder: "Search accounts..." },
+    {
+      key: "account_type",
+      label: "Account Type",
+      type: "select",
+      options: [
+        { value: "ASSET", label: "Asset" },
+        { value: "LIABILITY", label: "Liability" },
+        { value: "EQUITY", label: "Equity" },
+        { value: "REVENUE", label: "Revenue" },
+        { value: "EXPENSE", label: "Expense" },
+      ],
+    },
+  ],
+  formFields: [
+    { key: "code", label: "Code", type: "text", required: true },
+    { key: "name", label: "Name", type: "text", required: true },
+    {
+      key: "account_type",
+      label: "Account Type",
+      type: "select",
+      options: [
+        { value: "ASSET", label: "Asset" },
+        { value: "LIABILITY", label: "Liability" },
+        { value: "EQUITY", label: "Equity" },
+        { value: "REVENUE", label: "Revenue" },
+        { value: "EXPENSE", label: "Expense" },
+      ],
+    },
+    {
+      key: "sub_type",
+      label: "Sub Type",
+      type: "select",
+      options: [
+        { value: "CURRENT_ASSET", label: "Current Asset" },
+        { value: "FIXED_ASSET", label: "Fixed Asset" },
+        { value: "OTHER_ASSET", label: "Other Asset" },
+        { value: "CURRENT_LIABILITY", label: "Current Liability" },
+        { value: "LONG_TERM_LIABILITY", label: "Long-Term Liability" },
+        { value: "OWNERS_EQUITY", label: "Owner's Equity" },
+        { value: "RETAINED_EARNINGS", label: "Retained Earnings" },
+        { value: "OPERATING_REVENUE", label: "Operating Revenue" },
+        { value: "OTHER_REVENUE", label: "Other Revenue" },
+        { value: "OPERATING_EXPENSE", label: "Operating Expense" },
+        { value: "COST_OF_GOODS_SOLD", label: "Cost of Goods Sold" },
+        { value: "OTHER_EXPENSE", label: "Other Expense" },
+      ],
+    },
+    { key: "parent", label: "Parent Account", type: "relation_picker", optionsEndpoint: "/finance/accounts/" },
+    { key: "is_active", label: "Active", type: "boolean", defaultValue: true },
+    { key: "description", label: "Description", type: "textarea", gridSpan: 2 },
+  ],
+});

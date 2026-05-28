@@ -1,0 +1,32 @@
+[tool.ruff]
+target-version = "py312"
+line-length = 120
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "S",    # bandit (security)
+    "B",    # bugbear
+    "UP",   # pyupgrade
+]
+ignore = [
+    "E501",   # line too long (handled by formatter)
+    "S101",   # assert usage (fine in tests)
+    "S105",   # hardcoded password (false positives on field names)
+    "S106",   # hardcoded password (false positives on field names)
+    "S107",   # hardcoded password (false positives on defaults)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"**/migrations/*.py" = ["E", "W", "F", "I", "UP"]
+"**/tests*.py" = ["S"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.bandit]
+exclude_dirs = ["tests", "migrations", ".venv"]
+skips = ["B101", "B105", "B106", "B107"]

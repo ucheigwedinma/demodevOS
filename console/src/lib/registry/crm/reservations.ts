@@ -1,0 +1,61 @@
+import { registerResource } from "../index";
+
+registerResource({
+  key: "reservations",
+  module: "crm",
+  label: "Reservation",
+  labelPlural: "Reservations",
+  endpoint: "/crm/reservations/",
+  columns: [
+    { key: "reservation_number", label: "Reservation Number", type: "text" },
+    { key: "lead", label: "Lead", type: "text" },
+    { key: "unit", label: "Unit", type: "text" },
+    { key: "project", label: "Project", type: "text" },
+    { key: "status", label: "Status", type: "badge" },
+    { key: "total_price", label: "Total Price", type: "currency" },
+    { key: "reservation_date", label: "Reservation Date", type: "date" },
+  ],
+  filters: [
+    { key: "search", label: "Search", type: "search", placeholder: "Search reservations..." },
+    {
+      key: "status",
+      label: "Status",
+      type: "select",
+      options: [
+        { value: "HOLD", label: "Hold" },
+        { value: "RESERVED", label: "Reserved" },
+        { value: "PAYMENT_PENDING", label: "Payment Pending" },
+        { value: "PAID", label: "Paid" },
+        { value: "CONVERTING", label: "Converting" },
+        { value: "CONVERTED", label: "Converted" },
+        { value: "EXPIRED", label: "Expired" },
+        { value: "CANCELLED", label: "Cancelled" },
+      ],
+    },
+  ],
+  formFields: [
+    { key: "lead", label: "Lead", type: "relation_picker", required: true, optionsEndpoint: "/crm/leads/" },
+    { key: "unit", label: "Unit", type: "relation_picker", optionsEndpoint: "/properties/units/" },
+    { key: "project", label: "Project", type: "relation_picker", optionsEndpoint: "/projects/" },
+    { key: "total_price", label: "Total Price", type: "currency", required: true },
+    { key: "deposit_amount", label: "Deposit Amount", type: "currency" },
+    { key: "reservation_fee", label: "Reservation Fee", type: "currency" },
+    { key: "reservation_date", label: "Reservation Date", type: "date" },
+    {
+      key: "status",
+      label: "Status",
+      type: "select",
+      options: [
+        { value: "HOLD", label: "Hold" },
+        { value: "RESERVED", label: "Reserved" },
+        { value: "PAYMENT_PENDING", label: "Payment Pending" },
+        { value: "PAID", label: "Paid" },
+        { value: "CONVERTING", label: "Converting" },
+        { value: "CONVERTED", label: "Converted" },
+        { value: "EXPIRED", label: "Expired" },
+        { value: "CANCELLED", label: "Cancelled" },
+      ],
+    },
+    { key: "notes", label: "Notes", type: "textarea", gridSpan: 2 },
+  ],
+});

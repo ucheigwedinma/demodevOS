@@ -1,0 +1,146 @@
+{
+  "policies": [
+    {
+      "key": "finance-manager-approve-requires-mfa",
+      "name": "Finance approvals require MFA",
+      "description": "Enforce MFA for finance approval actions when executed by finance managerial roles.",
+      "module": "finance",
+      "sub_module": "",
+      "action": "approve",
+      "priority": 10,
+      "is_active": true,
+      "conditions": [
+        {
+          "condition_type": "user_role",
+          "operator": "in",
+          "value": ["finance-manager", "finance-controller"],
+          "sort_order": 10,
+          "is_active": true
+        }
+      ],
+      "actions": [
+        {
+          "action_type": "require_mfa",
+          "parameters": {},
+          "message": "MFA is required to approve finance actions.",
+          "sort_order": 10,
+          "is_active": true
+        }
+      ]
+    },
+    {
+      "key": "finance-reports-export-requires-office-ip",
+      "name": "Finance report exports require office IP",
+      "description": "Restrict sensitive finance report exports to approved office network ranges.",
+      "module": "finance",
+      "sub_module": "finance.reports",
+      "action": "export",
+      "priority": 20,
+      "is_active": true,
+      "conditions": [
+        {
+          "condition_type": "user_role",
+          "operator": "in",
+          "value": ["finance-controller", "finance-manager", "developer-executive"],
+          "sort_order": 10,
+          "is_active": true
+        }
+      ],
+      "actions": [
+        {
+          "action_type": "require_office_ip",
+          "parameters": {
+            "cidrs": ["10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"]
+          },
+          "message": "Finance report exports are restricted to approved office networks.",
+          "sort_order": 10,
+          "is_active": true
+        }
+      ]
+    },
+    {
+      "key": "procurement-po-approve-requires-corporate-device",
+      "name": "PO approvals require trusted device",
+      "description": "Require a trusted/corporate device for procurement purchase order approvals.",
+      "module": "procurement",
+      "sub_module": "procurement.orders",
+      "action": "approve",
+      "priority": 30,
+      "is_active": true,
+      "conditions": [
+        {
+          "condition_type": "user_role",
+          "operator": "in",
+          "value": ["procurement-manager", "finance-controller", "developer-executive"],
+          "sort_order": 10,
+          "is_active": true
+        }
+      ],
+      "actions": [
+        {
+          "action_type": "require_corporate_device",
+          "parameters": {},
+          "message": "Purchase order approvals require a trusted corporate device.",
+          "sort_order": 10,
+          "is_active": true
+        }
+      ]
+    },
+    {
+      "key": "security-settings-edit-requires-mfa",
+      "name": "Security settings changes require MFA",
+      "description": "Require MFA before editing IAM or security controls.",
+      "module": "settings",
+      "sub_module": "settings.security",
+      "action": "edit",
+      "priority": 40,
+      "is_active": true,
+      "conditions": [
+        {
+          "condition_type": "user_role",
+          "operator": "in",
+          "value": ["admin", "security-admin", "iam-admin"],
+          "sort_order": 10,
+          "is_active": true
+        }
+      ],
+      "actions": [
+        {
+          "action_type": "require_mfa",
+          "parameters": {},
+          "message": "MFA is required to edit security settings.",
+          "sort_order": 10,
+          "is_active": true
+        }
+      ]
+    },
+    {
+      "key": "support-ticket-delete-restricted",
+      "name": "Support ticket deletion restricted",
+      "description": "Prevent destructive deletion of support tickets by non-admin users.",
+      "module": "support_desk",
+      "sub_module": "support_desk.tickets",
+      "action": "delete",
+      "priority": 50,
+      "is_active": true,
+      "conditions": [
+        {
+          "condition_type": "user_role",
+          "operator": "not_in",
+          "value": ["admin", "developer-executive"],
+          "sort_order": 10,
+          "is_active": true
+        }
+      ],
+      "actions": [
+        {
+          "action_type": "deny",
+          "parameters": {},
+          "message": "Support ticket deletion is restricted. Use archive or escalate instead.",
+          "sort_order": 10,
+          "is_active": true
+        }
+      ]
+    }
+  ]
+}

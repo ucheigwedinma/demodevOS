@@ -1,0 +1,62 @@
+[
+  {
+    "key": "workflow_pending_email",
+    "name": "Workflow Pending Email",
+    "html": "<div style=\"font-family:Arial,sans-serif;line-height:1.5;color:#111827\"><h2 style=\"margin:0 0 12px\">Approval required</h2><p>Hello {{assignee_name}},</p><p>{{document_title}} is waiting for your review.</p><p>Due: <strong>{{due_at}}</strong></p><p><a href=\"{{action_url}}\">Open workflow item</a></p></div>"
+  },
+  {
+    "key": "sla_escalation_email",
+    "name": "SLA Escalation Email",
+    "html": "<div style=\"font-family:Arial,sans-serif;line-height:1.5;color:#111827\"><h2 style=\"margin:0 0 12px\">SLA escalation triggered</h2><p>{{document_title}} has breached SLA.</p><p>Current owner: {{assignee_name}}</p><p><a href=\"{{action_url}}\">Review escalation</a></p></div>"
+  },
+  {
+    "key": "support_ticket_assigned_email",
+    "name": "Support Ticket Assigned Email",
+    "html": "<div style=\"font-family:Arial,sans-serif;line-height:1.5;color:#111827\"><h2 style=\"margin:0 0 12px\">Ticket {{ticket_id}} assigned</h2><p>{{ticket_subject}}</p><p>Requester: {{requester_name}}</p><p><a href=\"{{action_url}}\">Open support desk</a></p></div>"
+  },
+  {
+    "key": "support_ticket_reply_email",
+    "name": "Support Ticket Reply Email",
+    "html": "<div style=\"font-family:Arial,sans-serif;line-height:1.5;color:#111827\"><h2 style=\"margin:0 0 12px\">Update on ticket {{ticket_id}}</h2><p>{{ticket_subject}}</p><p>A new reply is available.</p><p><a href=\"{{action_url}}\">View ticket</a></p></div>"
+  },
+  {
+    "key": "support_ticket_escalated_email",
+    "name": "Support Ticket Escalated Email",
+    "html": "<div style=\"font-family:Arial,sans-serif;line-height:1.5;color:#111827\"><h2 style=\"margin:0 0 12px\">Ticket {{ticket_id}} escalated</h2><p>{{ticket_subject}}</p><p>Immediate attention is required.</p><p><a href=\"{{action_url}}\">Open support desk</a></p></div>"
+  },
+  {
+    "key": "finance_budget_warning_email",
+    "name": "Budget Warning Email",
+    "html": "<div style=\"font-family:Arial,sans-serif;line-height:1.5;color:#111827\"><h2 style=\"margin:0 0 12px\">Budget warning for {{account_code}}</h2><p>{{account_name}} is at {{percent_used}}% utilization.</p><p>Budgeted: {{budgeted_amount}} | Actual: {{actual_amount}}</p><p><a href=\"{{action_url}}\">Open budget</a></p></div>"
+  },
+  {
+    "key": "finance_budget_exceeded_email",
+    "name": "Budget Exceeded Email",
+    "html": "<div style=\"font-family:Arial,sans-serif;line-height:1.5;color:#111827\"><h2 style=\"margin:0 0 12px\">Budget exceeded for {{account_code}}</h2><p>{{account_name}} is at {{percent_used}}% utilization.</p><p>Budgeted: {{budgeted_amount}} | Actual: {{actual_amount}}</p><p><a href=\"{{action_url}}\">Open budget</a></p></div>"
+  },
+  {
+    "key": "finance_weekly_digest_email",
+    "name": "Weekly Budget Digest Email",
+    "html": "<div style=\"font-family:Arial,sans-serif;line-height:1.5;color:#111827\"><h2 style=\"margin:0 0 12px\">Weekly Budget Digest</h2><p>Reporting date: {{digest_date}}</p><div>{{digest_html}}</div><p><a href=\"{{action_url}}\">Open finance dashboard</a></p></div>"
+  },
+  {
+    "key": "reports_ready_email",
+    "name": "Report Ready Email",
+    "html": "<div style=\"font-family:Arial,sans-serif;line-height:1.5;color:#111827\"><h2 style=\"margin:0 0 12px\">Your report is ready</h2><p><strong>{{report_name}}</strong> is ready in {{output_format}} format.</p><p><a href=\"{{view_url}}\">View report</a> | <a href=\"{{download_url}}\">Download</a></p></div>"
+  },
+  {
+    "key": "documents_expiry_alert_email",
+    "name": "Document Expiry Alert Email",
+    "html": "<div style=\"font-family:Arial,sans-serif;line-height:1.5;color:#111827\"><h2 style=\"margin:0 0 12px\">Document expiry alert</h2><p>{{document_number}} - {{document_title}}</p><p>{{category_label}} expires on {{expiry_date}} ({{days_to_expiry}} days).</p><p><a href=\"{{action_url}}\">Open document</a></p></div>"
+  },
+  {
+    "key": "documents_expired_email",
+    "name": "Document Expired Email",
+    "html": "<div style=\"font-family:Arial,sans-serif;line-height:1.5;color:#111827\"><h2 style=\"margin:0 0 12px\">Document expired</h2><p>{{document_number}} - {{document_title}}</p><p>{{category_label}} expired on {{expiry_date}} ({{days_overdue}} days overdue).</p><p><a href=\"{{action_url}}\">Open document</a></p></div>"
+  },
+  {
+    "key": "crm_reservation_instruction_email",
+    "name": "Reservation Instruction Email",
+    "html": "<div style=\"font-family:Arial,sans-serif;line-height:1.5;color:#111827\"><h2 style=\"margin:0 0 12px\">Payment instruction issued</h2><p>Reservation {{reservation_number}}</p><p>Deposit amount: {{deposit_amount}}</p><p>Due date: {{deposit_due_date}}</p><p><a href=\"{{action_url}}\">Open reservation</a></p></div>"
+  }
+]

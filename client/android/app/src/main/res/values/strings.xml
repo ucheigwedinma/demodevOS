@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">developerOS</string>
+    <string name="title_activity_main">developerOS</string>
+    <string name="package_name">pro.developeros.app</string>
+    <string name="custom_url_scheme">pro.developeros.app</string>
+</resources>

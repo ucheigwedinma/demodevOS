@@ -1,0 +1,70 @@
+import { registerResource } from "../index";
+
+registerResource({
+  key: "onboarding-cases",
+  module: "partners",
+  label: "Onboarding Case",
+  labelPlural: "Onboarding Cases",
+  endpoint: "/partners/cases/",
+  columns: [
+    { key: "title", label: "Title", type: "text", sortable: true },
+    { key: "partner_type", label: "Partner Type", type: "badge" },
+    { key: "status", label: "Status", type: "badge" },
+    { key: "contact_name", label: "Contact Name", type: "text" },
+    { key: "contact_email", label: "Contact Email", type: "text" },
+    { key: "current_stage", label: "Current Stage", type: "text" },
+    { key: "assigned_owner", label: "Assigned Owner", type: "text" },
+  ],
+  filters: [
+    { key: "search", label: "Search", type: "search", placeholder: "Search onboarding cases..." },
+    {
+      key: "status",
+      label: "Status",
+      type: "select",
+      options: [
+        { value: "DRAFT", label: "Draft" },
+        { value: "IN_PROGRESS", label: "In Progress" },
+        { value: "AWAITING_APPROVAL", label: "Awaiting Approval" },
+        { value: "COMPLETED", label: "Completed" },
+        { value: "REJECTED", label: "Rejected" },
+        { value: "CANCELLED", label: "Cancelled" },
+      ],
+    },
+    {
+      key: "partner_type",
+      label: "Partner Type",
+      type: "select",
+      options: [
+        { value: "VENDOR", label: "Vendor" },
+        { value: "INVESTOR", label: "Investor" },
+        { value: "CLIENT", label: "Client" },
+        { value: "BROKER", label: "Broker" },
+        { value: "CONTRACTOR", label: "Contractor" },
+      ],
+    },
+  ],
+  formFields: [
+    { key: "title", label: "Title", type: "text", required: true },
+    {
+      key: "partner_type",
+      label: "Partner Type",
+      type: "select",
+      required: true,
+      options: [
+        { value: "VENDOR", label: "Vendor" },
+        { value: "INVESTOR", label: "Investor" },
+        { value: "CLIENT", label: "Client" },
+        { value: "BROKER", label: "Broker" },
+        { value: "CONTRACTOR", label: "Contractor" },
+      ],
+    },
+    { key: "template", label: "Template", type: "relation_picker", optionsEndpoint: "/partners/templates/" },
+    { key: "contact_name", label: "Contact Name", type: "text", required: true },
+    { key: "contact_email", label: "Contact Email", type: "text", required: true },
+    { key: "contact_phone", label: "Contact Phone", type: "text" },
+    { key: "assigned_owner", label: "Assigned Owner", type: "relation_picker", optionsEndpoint: "/iam/users/" },
+    { key: "project", label: "Project", type: "relation_picker", optionsEndpoint: "/projects/" },
+    { key: "contract_reference", label: "Contract Reference", type: "text" },
+    { key: "notes", label: "Notes", type: "textarea", gridSpan: 2 },
+  ],
+});

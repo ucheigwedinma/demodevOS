@@ -1,0 +1,80 @@
+import { registerResource } from "../index";
+
+registerResource({
+  key: "financial-assessments",
+  module: "crm",
+  label: "Financial Assessment",
+  labelPlural: "Financial Assessments",
+  endpoint: "/crm/assessments/",
+  columns: [
+    { key: "lead", label: "Lead", type: "text" },
+    { key: "status", label: "Status", type: "badge" },
+    { key: "affordability_score", label: "Affordability Score", type: "number" },
+    { key: "risk_score", label: "Risk Score", type: "number" },
+    { key: "risk_level", label: "Risk Level", type: "badge" },
+    { key: "mortgage_prequalified", label: "Mortgage Prequalified", type: "boolean" },
+    { key: "assessment_date", label: "Assessment Date", type: "date" },
+  ],
+  filters: [
+    { key: "search", label: "Search", type: "search", placeholder: "Search assessments..." },
+    {
+      key: "status",
+      label: "Status",
+      type: "select",
+      options: [
+        { value: "PENDING", label: "Pending" },
+        { value: "IN_PROGRESS", label: "In Progress" },
+        { value: "COMPLETED", label: "Completed" },
+        { value: "EXPIRED", label: "Expired" },
+      ],
+    },
+    {
+      key: "risk_level",
+      label: "Risk Level",
+      type: "select",
+      options: [
+        { value: "LOW", label: "Low" },
+        { value: "MEDIUM", label: "Medium" },
+        { value: "HIGH", label: "High" },
+        { value: "CRITICAL", label: "Critical" },
+      ],
+    },
+  ],
+  formFields: [
+    { key: "lead", label: "Lead", type: "relation_picker", required: true, optionsEndpoint: "/crm/leads/" },
+    { key: "monthly_income", label: "Monthly Income", type: "currency" },
+    { key: "monthly_expenses", label: "Monthly Expenses", type: "currency" },
+    { key: "liquid_assets", label: "Liquid Assets", type: "currency" },
+    { key: "net_worth", label: "Net Worth", type: "currency" },
+    {
+      key: "employment_status",
+      label: "Employment Status",
+      type: "select",
+      options: [
+        { value: "EMPLOYED", label: "Employed" },
+        { value: "SELF_EMPLOYED", label: "Self Employed" },
+        { value: "BUSINESS_OWNER", label: "Business Owner" },
+        { value: "RETIRED", label: "Retired" },
+        { value: "UNEMPLOYED", label: "Unemployed" },
+        { value: "OTHER", label: "Other" },
+      ],
+    },
+    { key: "employer_name", label: "Employer Name", type: "text" },
+    { key: "mortgage_prequalified", label: "Mortgage Prequalified", type: "boolean" },
+    { key: "mortgage_prequalification_amount", label: "Mortgage Prequalification Amount", type: "currency" },
+    { key: "mortgage_provider", label: "Mortgage Provider", type: "text" },
+    {
+      key: "status",
+      label: "Status",
+      type: "select",
+      options: [
+        { value: "PENDING", label: "Pending" },
+        { value: "IN_PROGRESS", label: "In Progress" },
+        { value: "COMPLETED", label: "Completed" },
+        { value: "EXPIRED", label: "Expired" },
+      ],
+    },
+    { key: "assessment_date", label: "Assessment Date", type: "date" },
+    { key: "notes", label: "Notes", type: "textarea", gridSpan: 2 },
+  ],
+});

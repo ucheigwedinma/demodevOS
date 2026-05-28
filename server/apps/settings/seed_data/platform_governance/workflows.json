@@ -1,0 +1,165 @@
+{
+  "templates": [
+    {
+      "code": "finance_bill_approval_v1",
+      "name": "Finance Bill Approval",
+      "description": "Default approval workflow for AP bills.",
+      "default_step_mode": "sequential",
+      "is_default": true,
+      "is_active": true,
+      "applicable_content_types": [
+        { "app_label": "finance", "model": "bill" }
+      ],
+      "steps": [
+        {
+          "sequence": 1,
+          "name": "Finance Manager Review",
+          "step_type": "approval",
+          "execution_mode": "sequential",
+          "approver_role_slug": "finance-manager",
+          "sla_hours": 24,
+          "escalation_role_slug": "finance-controller",
+          "is_active": true
+        },
+        {
+          "sequence": 2,
+          "name": "Finance Controller Approval",
+          "step_type": "approval",
+          "execution_mode": "sequential",
+          "approver_role_slug": "finance-controller",
+          "sla_hours": 24,
+          "escalation_role_slug": "developer-executive",
+          "is_active": true
+        },
+        {
+          "sequence": 3,
+          "name": "Executive Sign-Off",
+          "step_type": "approval",
+          "execution_mode": "sequential",
+          "approver_role_slug": "developer-executive",
+          "sla_hours": 12,
+          "is_active": true
+        }
+      ],
+      "approval_policies": [
+        {
+          "name": "Bill Approval <= 50,000",
+          "policy_type": "financial_threshold",
+          "content_type": { "app_label": "finance", "model": "bill" },
+          "amount_field": "total_amount",
+          "min_amount": null,
+          "max_amount": "50000",
+          "priority": 10,
+          "is_active": true
+        },
+        {
+          "name": "Bill Approval > 50,000",
+          "policy_type": "financial_threshold",
+          "content_type": { "app_label": "finance", "model": "bill" },
+          "amount_field": "total_amount",
+          "min_amount": "50000.01",
+          "max_amount": null,
+          "priority": 20,
+          "is_active": true
+        }
+      ]
+    },
+    {
+      "code": "procurement_requisition_approval_v1",
+      "name": "Procurement Requisition Approval",
+      "description": "Default requisition workflow with procurement and finance gates.",
+      "default_step_mode": "sequential",
+      "is_default": true,
+      "is_active": true,
+      "applicable_content_types": [
+        { "app_label": "procurement", "model": "purchaserequisition" }
+      ],
+      "steps": [
+        {
+          "sequence": 1,
+          "name": "Department Manager Review",
+          "step_type": "approval",
+          "execution_mode": "sequential",
+          "approver_role_slug": "manager",
+          "sla_hours": 24,
+          "escalation_role_slug": "procurement-manager",
+          "is_active": true
+        },
+        {
+          "sequence": 2,
+          "name": "Procurement Review",
+          "step_type": "approval",
+          "execution_mode": "sequential",
+          "approver_role_slug": "procurement-officer",
+          "sla_hours": 24,
+          "escalation_role_slug": "procurement-manager",
+          "is_active": true
+        },
+        {
+          "sequence": 3,
+          "name": "Finance Approval",
+          "step_type": "approval",
+          "execution_mode": "sequential",
+          "approver_role_slug": "finance-controller",
+          "sla_hours": 24,
+          "is_active": true
+        }
+      ],
+      "approval_policies": [
+        {
+          "name": "Requisition Approval <= 100,000",
+          "policy_type": "procurement_threshold",
+          "content_type": { "app_label": "procurement", "model": "purchaserequisition" },
+          "amount_field": "estimated_total",
+          "min_amount": null,
+          "max_amount": "100000",
+          "priority": 10,
+          "is_active": true
+        },
+        {
+          "name": "Requisition Approval > 100,000",
+          "policy_type": "procurement_threshold",
+          "content_type": { "app_label": "procurement", "model": "purchaserequisition" },
+          "amount_field": "estimated_total",
+          "min_amount": "100000.01",
+          "max_amount": null,
+          "priority": 20,
+          "is_active": true
+        }
+      ]
+    },
+    {
+      "code": "document_governance_approval_v1",
+      "name": "Document Governance Approval",
+      "description": "Default governance workflow for controlled documents.",
+      "default_step_mode": "sequential",
+      "is_default": true,
+      "is_active": true,
+      "applicable_content_types": [
+        { "app_label": "documents", "model": "document" }
+      ],
+      "steps": [
+        {
+          "sequence": 1,
+          "name": "Legal Review",
+          "step_type": "approval",
+          "execution_mode": "sequential",
+          "approver_role_slug": "legal",
+          "sla_hours": 48,
+          "escalation_role_slug": "governance-officer",
+          "is_active": true
+        },
+        {
+          "sequence": 2,
+          "name": "Governance Approval",
+          "step_type": "approval",
+          "execution_mode": "sequential",
+          "approver_role_slug": "governance-officer",
+          "sla_hours": 24,
+          "is_active": true
+        }
+      ],
+      "approval_policies": []
+    }
+  ]
+}
