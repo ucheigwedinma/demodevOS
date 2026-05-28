@@ -444,8 +444,8 @@ from config.secrets import get_secret  # noqa: E402
 
 B2_KEY_ID = get_secret("b2_key_id")
 B2_APP_KEY = get_secret("b2_app_key")
-B2_BUCKET_NAME = get_secret("b2_bucket_name", default="developeros-backups")
-B2_ENDPOINT = get_secret("b2_endpoint", default="https://s3.us-west-004.backblazeb2.com")
+B2_BUCKET_NAME = get_secret("b2_bucket_name", default="")
+B2_ENDPOINT = get_secret("b2_endpoint", default="")
 BACKUP_WAL_DIR = os.environ.get("BACKUP_WAL_DIR", "/wal_archive")
 BACKUP_SECRETS_DIR = os.environ.get("BACKUP_SECRETS_DIR", "/app/secrets")
 BACKUP_FULL_RETENTION_DAYS = 30
