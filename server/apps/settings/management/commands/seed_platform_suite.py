@@ -1,5 +1,9 @@
-from django.core.management.base import BaseCommand
+"""
+Management command — implementation not published in this demo.
+Live product: https://developeros.pro
+"""
 
+from django.core.management.base import BaseCommand
 from apps.settings.seed_suites import (
     SuiteRunContext,
     build_platform_suite,
@@ -9,84 +13,14 @@ from apps.settings.seed_suites import (
     run_suite,
 )
 
-
 class Command(BaseCommand):
-    help = (
-        "Run the non-demo platform seed suite for staging/prod, with optional "
-        "operational commands and workflow runs."
-    )
+        help = (
+            "Run the non-demo platform seed suite for staging/prod, with optional "
+            "operational commands and workflow runs."
+        )
+        def add_arguments(self, parser):
+        pass  # implementation not published
 
-    def add_arguments(self, parser):
-        parser.add_argument(
-            "--organization-id",
-            dest="organization_ids",
-            action="append",
-            type=int,
-            help="Limit organization-aware steps to the provided organization id. Repeat for multiple.",
-        )
-        parser.add_argument(
-            "--include-ops",
-            action="store_true",
-            help="Also run operational maintenance commands after seeding.",
-        )
-        parser.add_argument(
-            "--include-workflows",
-            action="store_true",
-            help="Also run synchronous workflow/task automation after seeding.",
-        )
-        parser.add_argument(
-            "--step",
-            dest="steps",
-            action="append",
-            help="Run only a specific step key. Repeat to run multiple steps in order.",
-        )
-        parser.add_argument(
-            "--list",
-            dest="list_steps",
-            action="store_true",
-            help="List available step keys and exit.",
-        )
-        parser.add_argument(
-            "--dry-run",
-            action="store_true",
-            help="Print what would run without executing commands or workflows.",
-        )
-        parser.add_argument(
-            "--continue-on-error",
-            action="store_true",
-            help="Continue running the remaining steps after a failure, but still exit non-zero at the end.",
-        )
+        def handle(self, *args, **options):
+        pass  # implementation not published
 
-    def handle(self, *args, **options):
-        steps = build_platform_suite(
-            include_ops=options["include_ops"],
-            include_workflows=options["include_workflows"],
-        )
-
-        if options["list_steps"]:
-            self.stdout.write("Available platform suite steps:")
-            for line in describe_steps(steps):
-                self.stdout.write(f"  {line}")
-            return
-
-        selected = filter_steps(steps, options.get("steps"))
-        organization_ids = resolve_target_organization_ids(options.get("organization_ids"))
-        context = SuiteRunContext(
-            organization_ids=organization_ids,
-            flush=False,
-            dry_run=options["dry_run"],
-            continue_on_error=options["continue_on_error"],
-            stdout=self.stdout,
-            stderr=self.stderr,
-        )
-
-        run_suite(
-            suite_name="seed_platform_suite",
-            steps=selected,
-            context=context,
-        )
-        self.stdout.write(
-            self.style.SUCCESS(
-                f"seed_platform_suite completed successfully ({len(selected)} step(s))."
-            )
-        )
